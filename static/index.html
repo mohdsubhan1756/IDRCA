@@ -1,16 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Machine Log Analysis Dashboard</title>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Machine Log Analysis Dashboard</title>
+    <style>
+        #history-container {
+            margin-top: 2rem;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+        }
+        #analysis-history-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        #analysis-history-list li {
+            padding: 0.75rem;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        #analysis-history-list li:hover, #analysis-history-list li.active {
+            background-color: #f0f4f8;
+        }
+        .history-date { display: block; font-size: 0.8em; color: #666; }
+        .history-id { display: block; font-size: 0.9em; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        #analysis-history-list .badge { float: right; }
+    </style>
 </head>
 
 <body>
@@ -28,10 +52,58 @@
         </div>
     </header>
 
+    <div class="page-layout">
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <h3>AI Insights</h3>
+                <p id="insight-summary">No AI insight available.</p>
 
-    <main class="container">
+                <div id="root-causes">
+                    <!-- Root causes will be injected here -->
+                </div>
 
-        <!-- Health -->
+                <div id="history-container">
+                    <h3>Analysis History</h3>
+                    <ul id="analysis-history-list">
+                        <!-- History items will be injected here -->
+                    </ul>
+                </div>
+
+                <div id="trends-container">
+                    <h3>Analysis Trends</h3>
+                    <div class="trend-item">
+                        <h4>Health Score</h4>
+                        <p><span id="trend-health-score-latest">--</span> <span id="trend-health-score-delta" class="trend-delta"></span></p>
+                        <div id="trend-health-score-recent" class="trend-sparkline"></div>
+                    </div>
+                    <div class="trend-item">
+                        <h4>Anomaly Rate</h4>
+                        <p><span id="trend-anomaly-rate-latest">--</span>% <span id="trend-anomaly-rate-delta" class="trend-delta"></span></p>
+                        <div id="trend-anomaly-rate-recent" class="trend-sparkline"></div>
+                    </div>
+                    <div class="trend-item">
+                        <h4>Status Distribution</h4>
+                        <p>Normal: <span id="trend-status-normal">--</span></p>
+                        <p>Warning: <span id="trend-status-warning">--</span></p>
+                        <p>Critical: <span id="trend-status-critical">--</span></p>
+                    </div>
+                </div>
+
+                <div class="card payload-card">
+                    <h2>JSON Payload</h2>
+                    <div class="editor-controls">
+                        <button id="load-payload-button">Load Default</button>
+                        <button id="submit-payload-button" class="primary">Submit New Analysis</button>
+                        <button id="load-latest-button">Load Latest Analysis</button>
+                    </div>
+                    <div id="payload-message" class="payload-message"></div>
+                    <textarea id="payload-editor" class="payload-editor" rows="20"></textarea>
+                </div>
+            </div>
+        </aside>
+
+        <main class="container">
+            <!-- Health -->
         <section class="health-card">
 
             <div>
@@ -59,16 +131,6 @@
             <p><strong>Analysis ID:</strong> <span id="analysis-id">--</span></p>
             <p><strong>Unique Event Templates:</strong> <span id="unique-templates">--</span></p>
         </section>
-
-        <!-- <section class="card payload-card">
-            <h2>Submit JSON Payload</h2>
-            <textarea id="payload-editor" placeholder="Paste the analysis JSON here..."></textarea>
-            <div class="button-row">
-                <button id="submit-payload-button" class="primary">Submit to /api/analysis</button>
-                <button id="load-payload-button">Load default JSON</button>
-            </div>
-            <p id="payload-message" class="payload-message"></p>
-        </section> -->
 
         <!-- KPI Cards -->
         <section class="kpi-grid">
@@ -170,19 +232,6 @@
         </section>
 
 
-        <!-- AI Insights -->
-        <section class="card">
-
-            <h2>AI Insights</h2>
-
-            <p id="insight-summary"></p>
-
-            <h3>Root Cause Hypotheses</h3>
-
-            <div id="root-causes"></div>
-
-        </section>
-
         <section class="card metadata-card">
             <h2>Metadata</h2>
             <table class="metadata-table">
@@ -238,11 +287,10 @@
             </table>
 
         </section>
+        </main>
+    </div>
 
-    </main>
-
-
-    <script src="/static/app.js?v=2"></script>
+    <script src="/static/app.js"></script>
 
 </body>
 

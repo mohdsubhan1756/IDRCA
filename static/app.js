@@ -19,6 +19,7 @@ async function loadDashboard() {
     // The user can click "Load Latest Analysis" to go back.
     const source = currentAnalysisId ? `/api/analysis/${currentAnalysisId}` : "/api/dashboard";
 
+    await loadTrends();
     await loadHistory();
 
     try {
@@ -49,6 +50,58 @@ async function loadDashboard() {
     } catch (error) {
         console.error(`Dashboard loading error from ${source}:`, error);
         showDashboardError(error.message);
+    }
+}
+
+
+async function loadTrends() {
+    try {
+        const response = await fetch("/api/trends");
+        if (!response.ok) {
+            console.error("Failed to load trends:", response.statusText);
+            return;
+        }
+        const trends = await response.json();
+        console.log("Trends data:", trends);
+
+        // Health Score
+        const healthScoreLatest = document.getElementById("trend-health-score-latest");
+        const healthScoreDelta = document.getElementById("trend-health-score-delta");
+        if (healthScoreLatest) healthScoreLatest.textContent = trends.health_score_trend.latest !== null ? trends.health_score_trend.latest : "--";
+        if (healthScoreDelta) {
+            if (trends.health_score_trend.delta !== null) {
+                healthScoreDelta.textContent = `(${trends.health_score_trend.delta > 0 ? '+' : ''}${trends.health_score_trend.delta.toFixed(1)})`;
+                healthScoreDelta.className = `trend-delta ${trends.health_score_trend.delta > 0 ? 'trend-up' : 'trend-down'}`;
+            } else {
+                healthScoreDelta.textContent = "";
+                healthScoreDelta.className = "trend-delta";
+            }
+        }
+
+        // Anomaly Rate
+        const anomalyRateLatest = document.getElementById("trend-anomaly-rate-latest");
+        const anomalyRateDelta = document.getElementById("trend-anomaly-rate-delta");
+        if (anomalyRateLatest) anomalyRateLatest.textContent = trends.anomaly_rate_trend.latest !== null ? trends.anomaly_rate_trend.latest.toFixed(2) : "--";
+        if (anomalyRateDelta) {
+            if (trends.anomaly_rate_trend.delta !== null) {
+                anomalyRateDelta.textContent = `(${trends.anomaly_rate_trend.delta > 0 ? '+' : ''}${trends.anomaly_rate_trend.delta.toFixed(2)})`;
+                anomalyRateDelta.className = `trend-delta ${trends.anomaly_rate_trend.delta > 0 ? 'trend-down' : 'trend-up'}`; // Anomaly rate up is bad
+            } else {
+                anomalyRateDelta.textContent = "";
+                anomalyRateDelta.className = "trend-delta";
+            }
+        }
+
+        // Status Distribution
+        const statusNormal = document.getElementById("trend-status-normal");
+        const statusWarning = document.getElementById("trend-status-warning");
+        const statusCritical = document.getElementById("trend-status-critical");
+        if (statusNormal) statusNormal.textContent = trends.status_distribution.NORMAL;
+        if (statusWarning) statusWarning.textContent = trends.status_distribution.WARNING;
+        if (statusCritical) statusCritical.textContent = trends.status_distribution.CRITICAL;
+
+    } catch (error) {
+        console.error("Error loading trends:", error);
     }
 }
 
@@ -282,6 +335,11 @@ function renderDashboard(data) {
         "status-badge",
         status
     );
+
+    const statusBadgeElement = document.getElementById("status-badge");
+    if (statusBadgeElement) {
+        statusBadgeElement.setAttribute("data-status", status);
+    }
 
     const startedAt = analysis.started_at;
     const endedAt = analysis.ended_at;

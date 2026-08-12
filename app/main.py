@@ -175,3 +175,56 @@ def get_analysis_by_id(analysis_id: str):
         )
 
     return payload.model_dump(mode="json")
+
+
+@app.get("/api/trends")
+def get_trends():
+    """
+    Return trend data based on historical analysis payloads.
+    """
+    payloads = get_all_payloads()
+    if not payloads:
+        return {
+            "health_score_trend": {"latest": None, "delta": None},
+            "anomaly_rate_trend": {"latest": None, "delta": None},
+            "status_distribution": {"NORMAL": 0, "WARNING": 0, "CRITICAL": 0},
+        }
+
+    # Sort payloads by started_at to ensure chronological order
+    sorted_payloads = sorted(payloads, key=lambda p: p.analysis.started_at)
+
+    health_scores = [p.analysis.health_score for p in sorted_payloads if p.analysis.health_score is not None]
+    anomaly_rates = [p.summary.anomaly_rate for p in sorted_payloads if p.summary.anomaly_rate is not None]
+    statuses = [p.analysis.status for p in sorted_payloads]
+
+    # Health Score Trend
+    latest_health_score = health_scores[-1] if health_scores else None
+    previous_health_score = health_scores[-2] if len(health_scores) >= 2 else None
+    health_score_delta = None
+    if latest_health_score is not None and previous_health_score is not None:
+        health_score_delta = latest_health_score - previous_health_score
+
+    # Anomaly Rate Trend
+    latest_anomaly_rate = anomaly_rates[-1] if anomaly_rates else None
+    previous_anomaly_rate = anomaly_rates[-2] if len(anomaly_rates) >= 2 else None
+    anomaly_rate_delta = None
+    if latest_anomaly_rate is not None and previous_anomaly_rate is not None:
+        anomaly_rate_delta = latest_anomaly_rate - previous_anomaly_rate
+
+    # Status Distribution
+    status_distribution = {"NORMAL": 0, "WARNING": 0, "CRITICAL": 0}
+    for status in statuses:
+        if status in status_distribution:
+            status_distribution[status] += 1
+
+    return {
+        "health_score_trend": {
+            "latest": latest_health_score,
+            "delta": health_score_delta
+        },
+        "anomaly_rate_trend": {
+            "latest": latest_anomaly_rate,
+            "delta": anomaly_rate_delta
+        },
+        "status_distribution": status_distribution,
+    }

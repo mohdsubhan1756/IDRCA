@@ -662,5 +662,2085 @@
                 "source": "causRCA"
             }
         }
+    },
+    {
+        "schema_version": "1.0",
+        "system": {
+            "id": "system-001",
+            "name": "Industrial Equipment System",
+            "type": "industrial_equipment",
+            "source": "causRCA"
+        },
+        "analysis": {
+            "analysis_id": "analysis-2026-08-11-001",
+            "started_at": "2026-08-11T08:00:00Z",
+            "ended_at": "2026-08-11T08:05:42Z",
+            "total_events": 46358,
+            "unique_event_templates": 38,
+            "status": "WARNING",
+            "health_score": 72.0
+        },
+        "summary": {
+            "normal_events": 46353,
+            "anomalous_events": 5,
+            "anomaly_rate": 0.010785624919107813,
+            "critical_anomalies": 0,
+            "high_anomalies": 3,
+            "medium_anomalies": 0,
+            "low_anomalies": 2
+        },
+        "event_statistics": {
+            "severity_distribution": [
+                {
+                    "level": "NORMAL",
+                    "count": 46353,
+                    "percentage": 99.99
+                },
+                {
+                    "level": "WARNING",
+                    "count": 0,
+                    "percentage": 0.0
+                },
+                {
+                    "level": "CRITICAL",
+                    "count": 0,
+                    "percentage": 0.0
+                }
+            ],
+            "top_events": [
+                {
+                    "event_id": "T_A_701309",
+                    "template": "Alarm",
+                    "count": 363,
+                    "percentage": 0.78
+                },
+                {
+                    "event_id": "Spd_ActSpeed_X",
+                    "template": "Continuous",
+                    "count": 521,
+                    "percentage": 1.12
+                },
+                {
+                    "event_id": "Spd_ActPos_X",
+                    "template": "Continuous",
+                    "count": 523,
+                    "percentage": 1.13
+                }
+            ]
+        },
+        "trends": {
+            "event_rate": [
+                {
+                    "timestamp": "2026-08-11T08:00:00Z",
+                    "value": 105.4
+                },
+                {
+                    "timestamp": "2026-08-11T09:00:00Z",
+                    "value": 103.7
+                },
+                {
+                    "timestamp": "2026-08-11T10:00:00Z",
+                    "value": 103.7
+                }
+            ],
+            "anomaly_rate": [
+                {
+                    "timestamp": "2026-08-11T08:00:00Z",
+                    "value": 0.717703
+                },
+                {
+                    "timestamp": "2026-08-11T09:00:00Z",
+                    "value": 1.061008
+                },
+                {
+                    "timestamp": "2026-08-11T10:00:00Z",
+                    "value": 0.552608
+                }
+            ]
+        },
+        "anomalies": [
+            {
+                "id": "ALARM-001",
+                "severity": "HIGH",
+                "type": "ALARM_CLUSTER",
+                "title": "Repeated activity in alarm signal T_A_701309",
+                "description": "Alarm signal T_A_701309 was active 363 times during the analysed window.",
+                "first_detected": "2026-08-11T08:00:11Z",
+                "last_detected": "2026-08-11T08:08:38Z",
+                "occurrences": 363,
+                "affected_entities": [
+                    "T_A_701309"
+                ],
+                "evidence": [
+                    {
+                        "metric": "alarm_occurrences",
+                        "value": 363.0,
+                        "baseline": 0.0,
+                        "unit": "events"
+                    },
+                    {
+                        "metric": "alarm_frequency",
+                        "value": 0.7152709359605911,
+                        "baseline": 0.0,
+                        "unit": "events_per_second"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 1.0
+            },
+            {
+                "id": "SIG-005",
+                "severity": "HIGH",
+                "type": "SIGNAL_DEVIATION",
+                "title": "Deviation detected in signal Spd_ActSpeed_X",
+                "description": "Signal Spd_ActSpeed_X changed from a baseline mean of -49.4127 to an incident mean of -126.99.",
+                "first_detected": "2026-08-11T08:04:20Z",
+                "last_detected": "2026-08-11T08:40:05Z",
+                "occurrences": 521,
+                "affected_entities": [
+                    "Spd_ActSpeed_X"
+                ],
+                "evidence": [
+                    {
+                        "metric": "baseline_mean",
+                        "value": -49.41269097888675,
+                        "baseline": -49.41269097888675,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "incident_mean",
+                        "value": -126.98994241842612,
+                        "baseline": -49.41269097888675,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "relative_deviation",
+                        "value": -1.5699863719765208,
+                        "baseline": 0.0,
+                        "unit": "ratio"
+                    },
+                    {
+                        "metric": "baseline_stdev",
+                        "value": 2405.7411079445455,
+                        "baseline": 0.0,
+                        "unit": "dataset_units"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 1.0
+            },
+            {
+                "id": "SIG-003",
+                "severity": "HIGH",
+                "type": "SIGNAL_DEVIATION",
+                "title": "Deviation detected in signal Spd_ActPos_X",
+                "description": "Signal Spd_ActPos_X changed from a baseline mean of 149.08 to an incident mean of 227.83.",
+                "first_detected": "2026-08-11T08:04:21Z",
+                "last_detected": "2026-08-11T08:40:20Z",
+                "occurrences": 523,
+                "affected_entities": [
+                    "Spd_ActPos_X"
+                ],
+                "evidence": [
+                    {
+                        "metric": "baseline_mean",
+                        "value": 149.07994252873561,
+                        "baseline": 149.07994252873561,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "incident_mean",
+                        "value": 227.82973040152964,
+                        "baseline": 149.07994252873561,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "relative_deviation",
+                        "value": 0.5282386519408188,
+                        "baseline": 0.0,
+                        "unit": "ratio"
+                    },
+                    {
+                        "metric": "baseline_stdev",
+                        "value": 108.06202810697059,
+                        "baseline": 0.0,
+                        "unit": "dataset_units"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 0.7641193259704093
+            },
+            {
+                "id": "SIG-002",
+                "severity": "LOW",
+                "type": "SIGNAL_DEVIATION",
+                "title": "Deviation detected in signal Spd_ActPos_C",
+                "description": "Signal Spd_ActPos_C changed from a baseline mean of 116.626 to an incident mean of 104.194.",
+                "first_detected": "2026-08-11T08:04:21Z",
+                "last_detected": "2026-08-11T08:42:10Z",
+                "occurrences": 524,
+                "affected_entities": [
+                    "Spd_ActPos_C"
+                ],
+                "evidence": [
+                    {
+                        "metric": "baseline_mean",
+                        "value": 116.62565774378585,
+                        "baseline": 116.62565774378585,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "incident_mean",
+                        "value": 104.19396183206106,
+                        "baseline": 116.62565774378585,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "relative_deviation",
+                        "value": -0.10659486216177147,
+                        "baseline": 0.0,
+                        "unit": "ratio"
+                    },
+                    {
+                        "metric": "baseline_stdev",
+                        "value": 83.91065714581893,
+                        "baseline": 0.0,
+                        "unit": "dataset_units"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 0.5532974310808857
+            },
+            {
+                "id": "SIG-004",
+                "severity": "LOW",
+                "type": "SIGNAL_DEVIATION",
+                "title": "Deviation detected in signal Spd_ActPos_Z",
+                "description": "Signal Spd_ActPos_Z changed from a baseline mean of 431.267 to an incident mean of 384.325.",
+                "first_detected": "2026-08-11T08:04:21Z",
+                "last_detected": "2026-08-11T08:42:10Z",
+                "occurrences": 523,
+                "affected_entities": [
+                    "Spd_ActPos_Z"
+                ],
+                "evidence": [
+                    {
+                        "metric": "baseline_mean",
+                        "value": 431.26725862068963,
+                        "baseline": 431.26725862068963,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "incident_mean",
+                        "value": 384.32503059273427,
+                        "baseline": 431.26725862068963,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "relative_deviation",
+                        "value": -0.10884718718988642,
+                        "baseline": 0.0,
+                        "unit": "ratio"
+                    },
+                    {
+                        "metric": "baseline_stdev",
+                        "value": 91.6570763033603,
+                        "baseline": 0.0,
+                        "unit": "dataset_units"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 0.5544235935949432
+            }
+        ],
+        "affected_entities": [
+            {
+                "id": "Spd_ActPos_C",
+                "type": "signal",
+                "event_count": 1047,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            },
+            {
+                "id": "Spd_ActPos_X",
+                "type": "signal",
+                "event_count": 1045,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            },
+            {
+                "id": "Spd_ActPos_Z",
+                "type": "signal",
+                "event_count": 1045,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            },
+            {
+                "id": "Spd_ActSpeed_X",
+                "type": "signal",
+                "event_count": 1042,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            },
+            {
+                "id": "T_A_701309",
+                "type": "signal",
+                "event_count": 1038,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            }
+        ],
+        "insights": {
+            "summary": "The analysed equipment experienced repeated alarm activity and multiple signal deviations during the incident window, with Spd_ActSpeed_X showing the strongest deviation.",
+            "root_cause_hypotheses": [
+                {
+                    "description": "The alarm cluster (ALARM-001) is the primary anomaly, persisting throughout the entire analysis window and potentially driving or reflecting system-wide instability.",
+                    "confidence": 0.95
+                },
+                {
+                    "description": "The signal deviations in Spd_ActSpeed_X, Spd_ActPos_X, Spd_ActPos_C, and Spd_ActPos_Z are temporally correlated with the alarm activity, suggesting they may be symptoms of a common underlying issue rather than independent root causes.",
+                    "confidence": 0.85
+                }
+            ],
+            "recommendations": [
+                {
+                    "priority": "HIGH",
+                    "action": "Investigate the root cause of the persistent alarm T_A_701309, as it is the most significant and longest-running anomaly."
+                },
+                {
+                    "priority": "MEDIUM",
+                    "action": "Examine the temporal relationship between the alarm activation and the signal deviations to determine if the alarm is a cause or effect of the signal changes."
+                }
+            ]
+        },
+        "metadata": {
+            "parser": {
+                "name": "causRCA_python_pipeline",
+                "version": "1.0"
+            },
+            "embedding": {
+                "enabled": true,
+                "model": "sentence-transformers"
+            },
+            "retrieval": {
+                "enabled": true,
+                "method": "local_similarity"
+            },
+            "llm": {
+                "enabled": true,
+                "provider": "nvidia_nim",
+                "model": "MODEL_NAME"
+            },
+            "ground_truth": {
+                "available": false,
+                "source": "causRCA"
+            }
+        }
+    },
+    {
+        "schema_version": "1.0",
+        "system": {
+            "id": "system-001",
+            "name": "Industrial Equipment System",
+            "type": "industrial_equipment",
+            "source": "causRCA"
+        },
+        "analysis": {
+            "analysis_id": "analysis-2026-08-11-001",
+            "started_at": "2026-08-11T08:00:00Z",
+            "ended_at": "2026-08-11T08:05:42Z",
+            "total_events": 13414,
+            "unique_event_templates": 55,
+            "status": "WARNING",
+            "health_score": 72.0
+        },
+        "summary": {
+            "normal_events": 13402,
+            "anomalous_events": 12,
+            "anomaly_rate": 0.08945877441479051,
+            "critical_anomalies": 0,
+            "high_anomalies": 10,
+            "medium_anomalies": 1,
+            "low_anomalies": 1
+        },
+        "event_statistics": {
+            "severity_distribution": [
+                {
+                    "level": "NORMAL",
+                    "count": 13402,
+                    "percentage": 99.91
+                },
+                {
+                    "level": "WARNING",
+                    "count": 0,
+                    "percentage": 0.0
+                },
+                {
+                    "level": "CRITICAL",
+                    "count": 0,
+                    "percentage": 0.0
+                }
+            ],
+            "top_events": [
+                {
+                    "event_id": "ALARM-001",
+                    "template": "Repeated activity in alarm signal CLF_A_700307",
+                    "count": 153,
+                    "percentage": 1.14
+                },
+                {
+                    "event_id": "ALARM-002",
+                    "template": "Repeated activity in alarm signal F_A_700313",
+                    "count": 120,
+                    "percentage": 0.89
+                },
+                {
+                    "event_id": "ALARM-003",
+                    "template": "Repeated activity in alarm signal LP_A_700301",
+                    "count": 69,
+                    "percentage": 0.51
+                }
+            ]
+        },
+        "trends": {
+            "event_rate": [
+                {
+                    "timestamp": "2026-08-11T08:00:00Z",
+                    "value": 109.425486
+                },
+                {
+                    "timestamp": "2026-08-11T09:00:00Z",
+                    "value": 90.971922
+                },
+                {
+                    "timestamp": "2026-08-11T10:00:00Z",
+                    "value": 88.639309
+                }
+            ],
+            "anomaly_rate": [
+                {
+                    "timestamp": "2026-08-11T08:00:00Z",
+                    "value": 0.0
+                },
+                {
+                    "timestamp": "2026-08-11T09:00:00Z",
+                    "value": 2.222222
+                },
+                {
+                    "timestamp": "2026-08-11T10:00:00Z",
+                    "value": 0.818713
+                }
+            ]
+        },
+        "anomalies": [
+            {
+                "id": "ALARM-001",
+                "severity": "HIGH",
+                "type": "ALARM_CLUSTER",
+                "title": "Repeated activity in alarm signal CLF_A_700307",
+                "description": "Alarm signal CLF_A_700307 was active 153 times during the analysed window.",
+                "first_detected": "2026-08-11T10:14:22Z",
+                "last_detected": "2026-08-11T10:47:13Z",
+                "occurrences": 153,
+                "affected_entities": [
+                    "CLF_A_700307"
+                ],
+                "evidence": [
+                    {
+                        "metric": "alarm_occurrences",
+                        "value": 153.0,
+                        "baseline": 0.0,
+                        "unit": "events"
+                    },
+                    {
+                        "metric": "alarm_frequency",
+                        "value": 2.013157894736842,
+                        "baseline": 0.0,
+                        "unit": "events_per_second"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 1.0
+            },
+            {
+                "id": "ALARM-002",
+                "severity": "HIGH",
+                "type": "ALARM_CLUSTER",
+                "title": "Repeated activity in alarm signal F_A_700313",
+                "description": "Alarm signal F_A_700313 was active 120 times during the analysed window.",
+                "first_detected": "2026-08-11T10:19:04Z",
+                "last_detected": "2026-08-11T10:43:51Z",
+                "occurrences": 120,
+                "affected_entities": [
+                    "F_A_700313"
+                ],
+                "evidence": [
+                    {
+                        "metric": "alarm_occurrences",
+                        "value": 120.0,
+                        "baseline": 0.0,
+                        "unit": "events"
+                    },
+                    {
+                        "metric": "alarm_frequency",
+                        "value": 2.0168067226890756,
+                        "baseline": 0.0,
+                        "unit": "events_per_second"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 1.0
+            },
+            {
+                "id": "ALARM-003",
+                "severity": "HIGH",
+                "type": "ALARM_CLUSTER",
+                "title": "Repeated activity in alarm signal LP_A_700301",
+                "description": "Alarm signal LP_A_700301 was active 69 times during the analysed window.",
+                "first_detected": "2026-08-11T10:23:46Z",
+                "last_detected": "2026-08-11T10:43:51Z",
+                "occurrences": 69,
+                "affected_entities": [
+                    "LP_A_700301"
+                ],
+                "evidence": [
+                    {
+                        "metric": "alarm_occurrences",
+                        "value": 69.0,
+                        "baseline": 0.0,
+                        "unit": "events"
+                    },
+                    {
+                        "metric": "alarm_frequency",
+                        "value": 2.0294117647058822,
+                        "baseline": 0.0,
+                        "unit": "events_per_second"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 1.0
+            },
+            {
+                "id": "ALARM-004",
+                "severity": "HIGH",
+                "type": "ALARM_CLUSTER",
+                "title": "Repeated activity in alarm signal Prog_A_701330",
+                "description": "Alarm signal Prog_A_701330 was active 66 times during the analysed window.",
+                "first_detected": "2026-08-11T10:48:20Z",
+                "last_detected": "2026-08-11T11:15:50Z",
+                "occurrences": 66,
+                "affected_entities": [
+                    "Prog_A_701330"
+                ],
+                "evidence": [
+                    {
+                        "metric": "alarm_occurrences",
+                        "value": 66.0,
+                        "baseline": 0.0,
+                        "unit": "events"
+                    },
+                    {
+                        "metric": "alarm_frequency",
+                        "value": 2.0307692307692307,
+                        "baseline": 0.0,
+                        "unit": "events_per_second"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 1.0
+            },
+            {
+                "id": "ALARM-005",
+                "severity": "HIGH",
+                "type": "ALARM_CLUSTER",
+                "title": "Repeated activity in alarm signal T_A_701309",
+                "description": "Alarm signal T_A_701309 was active 97 times during the analysed window.",
+                "first_detected": "2026-08-11T08:09:30Z",
+                "last_detected": "2026-08-11T09:39:18Z",
+                "occurrences": 97,
+                "affected_entities": [
+                    "T_A_701309"
+                ],
+                "evidence": [
+                    {
+                        "metric": "alarm_occurrences",
+                        "value": 97.0,
+                        "baseline": 0.0,
+                        "unit": "events"
+                    },
+                    {
+                        "metric": "alarm_frequency",
+                        "value": 1.0777777777777777,
+                        "baseline": 0.0,
+                        "unit": "events_per_second"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 1.0
+            },
+            {
+                "id": "SIG-006",
+                "severity": "MEDIUM",
+                "type": "SIGNAL_DEVIATION",
+                "title": "Deviation detected in signal Prog_CycleTime",
+                "description": "Signal Prog_CycleTime changed from a baseline mean of 56.8559 to an incident mean of 84.3304.",
+                "first_detected": "2026-08-11T09:25:00Z",
+                "last_detected": "2026-08-11T11:23:00Z",
+                "occurrences": 227,
+                "affected_entities": [
+                    "Prog_CycleTime"
+                ],
+                "evidence": [
+                    {
+                        "metric": "baseline_mean",
+                        "value": 56.85592920353982,
+                        "baseline": 56.85592920353982,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "incident_mean",
+                        "value": 84.3304140969163,
+                        "baseline": 56.85592920353982,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "relative_deviation",
+                        "value": 0.48322989841604647,
+                        "baseline": 0.0,
+                        "unit": "ratio"
+                    },
+                    {
+                        "metric": "baseline_stdev",
+                        "value": 32.73187421424547,
+                        "baseline": 0.0,
+                        "unit": "dataset_units"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 0.7416149492080233
+            },
+            {
+                "id": "SIG-007",
+                "severity": "HIGH",
+                "type": "SIGNAL_DEVIATION",
+                "title": "Deviation detected in signal Spd_ActPos_C",
+                "description": "Signal Spd_ActPos_C changed from a baseline mean of 98.0652 to an incident mean of 161.602.",
+                "first_detected": "2026-08-11T08:37:30Z",
+                "last_detected": "2026-08-11T10:52:30Z",
+                "occurrences": 155,
+                "affected_entities": [
+                    "Spd_ActPos_C"
+                ],
+                "evidence": [
+                    {
+                        "metric": "baseline_mean",
+                        "value": 98.06517419354839,
+                        "baseline": 98.06517419354839,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "incident_mean",
+                        "value": 161.6023612903226,
+                        "baseline": 98.06517419354839,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "relative_deviation",
+                        "value": 0.6479077574611014,
+                        "baseline": 0.0,
+                        "unit": "ratio"
+                    },
+                    {
+                        "metric": "baseline_stdev",
+                        "value": 103.8045130628852,
+                        "baseline": 0.0,
+                        "unit": "dataset_units"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 0.8239538787305507
+            },
+            {
+                "id": "SIG-008",
+                "severity": "HIGH",
+                "type": "SIGNAL_DEVIATION",
+                "title": "Deviation detected in signal Spd_ActPos_X",
+                "description": "Signal Spd_ActPos_X changed from a baseline mean of 169.673 to an incident mean of 64.481.",
+                "first_detected": "2026-08-11T08:55:00Z",
+                "last_detected": "2026-08-11T11:30:00Z",
+                "occurrences": 199,
+                "affected_entities": [
+                    "Spd_ActPos_X"
+                ],
+                "evidence": [
+                    {
+                        "metric": "baseline_mean",
+                        "value": 169.6731414141414,
+                        "baseline": 169.6731414141414,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "incident_mean",
+                        "value": 64.48101005025126,
+                        "baseline": 169.6731414141414,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "relative_deviation",
+                        "value": -0.6199692566965281,
+                        "baseline": 0.0,
+                        "unit": "ratio"
+                    },
+                    {
+                        "metric": "baseline_stdev",
+                        "value": 178.72237268919363,
+                        "baseline": 0.0,
+                        "unit": "dataset_units"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 0.8099846283482641
+            },
+            {
+                "id": "SIG-009",
+                "severity": "LOW",
+                "type": "SIGNAL_DEVIATION",
+                "title": "Deviation detected in signal Spd_ActPos_Z",
+                "description": "Signal Spd_ActPos_Z changed from a baseline mean of 404.902 to an incident mean of 466.993.",
+                "first_detected": "2026-08-11T08:52:30Z",
+                "last_detected": "2026-08-11T11:15:00Z",
+                "occurrences": 196,
+                "affected_entities": [
+                    "Spd_ActPos_Z"
+                ],
+                "evidence": [
+                    {
+                        "metric": "baseline_mean",
+                        "value": 404.90152820512816,
+                        "baseline": 404.90152820512816,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "incident_mean",
+                        "value": 466.99277551020407,
+                        "baseline": 404.90152820512816,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "relative_deviation",
+                        "value": 0.1533490070544256,
+                        "baseline": 0.0,
+                        "unit": "ratio"
+                    },
+                    {
+                        "metric": "baseline_stdev",
+                        "value": 73.49518593339641,
+                        "baseline": 0.0,
+                        "unit": "dataset_units"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 0.5766745035272128
+            },
+            {
+                "id": "SIG-010",
+                "severity": "HIGH",
+                "type": "SIGNAL_DEVIATION",
+                "title": "Deviation detected in signal Spd_ActSpeed_C",
+                "description": "Signal Spd_ActSpeed_C changed from a baseline mean of -91964.2 to an incident mean of -156044.",
+                "first_detected": "2026-08-11T08:37:30Z",
+                "last_detected": "2026-08-11T10:52:30Z",
+                "occurrences": 155,
+                "affected_entities": [
+                    "Spd_ActSpeed_C"
+                ],
+                "evidence": [
+                    {
+                        "metric": "baseline_mean",
+                        "value": -91964.15419354838,
+                        "baseline": -91964.15419354838,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "incident_mean",
+                        "value": -156043.68193548385,
+                        "baseline": -91964.15419354838,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "relative_deviation",
+                        "value": -0.6967880942728322,
+                        "baseline": 0.0,
+                        "unit": "ratio"
+                    },
+                    {
+                        "metric": "baseline_stdev",
+                        "value": 162670.4697703182,
+                        "baseline": 0.0,
+                        "unit": "dataset_units"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 0.8483940471364161
+            },
+            {
+                "id": "SIG-011",
+                "severity": "HIGH",
+                "type": "SIGNAL_DEVIATION",
+                "title": "Deviation detected in signal Spd_ActSpeed_X",
+                "description": "Signal Spd_ActSpeed_X changed from a baseline mean of -263.041 to an incident mean of 150.754.",
+                "first_detected": "2026-08-11T08:55:00Z",
+                "last_detected": "2026-08-11T11:30:00Z",
+                "occurrences": 199,
+                "affected_entities": [
+                    "Spd_ActSpeed_X"
+                ],
+                "evidence": [
+                    {
+                        "metric": "baseline_mean",
+                        "value": -263.0407070707071,
+                        "baseline": -263.0407070707071,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "incident_mean",
+                        "value": 150.75428140703517,
+                        "baseline": -263.0407070707071,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "relative_deviation",
+                        "value": 1.5731214878711202,
+                        "baseline": 0.0,
+                        "unit": "ratio"
+                    },
+                    {
+                        "metric": "baseline_stdev",
+                        "value": 3960.796461294169,
+                        "baseline": 0.0,
+                        "unit": "dataset_units"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 1.0
+            },
+            {
+                "id": "SIG-012",
+                "severity": "HIGH",
+                "type": "SIGNAL_DEVIATION",
+                "title": "Deviation detected in signal Spd_ActSpeed_Z",
+                "description": "Signal Spd_ActSpeed_Z changed from a baseline mean of 135.943 to an incident mean of -393.808.",
+                "first_detected": "2026-08-11T08:17:30Z",
+                "last_detected": "2026-08-11T09:42:30Z",
+                "occurrences": 107,
+                "affected_entities": [
+                    "Spd_ActSpeed_Z"
+                ],
+                "evidence": [
+                    {
+                        "metric": "baseline_mean",
+                        "value": 135.94255140186917,
+                        "baseline": 135.94255140186917,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "incident_mean",
+                        "value": -393.8075887850468,
+                        "baseline": 135.94255140186917,
+                        "unit": "dataset_units"
+                    },
+                    {
+                        "metric": "relative_deviation",
+                        "value": -3.896867718929925,
+                        "baseline": 0.0,
+                        "unit": "ratio"
+                    },
+                    {
+                        "metric": "baseline_stdev",
+                        "value": 3311.5856104566856,
+                        "baseline": 0.0,
+                        "unit": "dataset_units"
+                    }
+                ],
+                "possible_causes": [],
+                "recommendations": [],
+                "confidence": 1.0
+            }
+        ],
+        "affected_entities": [
+            {
+                "id": "CLF_A_700307",
+                "type": "signal",
+                "event_count": 359,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            },
+            {
+                "id": "F_A_700313",
+                "type": "signal",
+                "event_count": 359,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            },
+            {
+                "id": "LP_A_700301",
+                "type": "signal",
+                "event_count": 359,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            },
+            {
+                "id": "Prog_A_701330",
+                "type": "signal",
+                "event_count": 464,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            },
+            {
+                "id": "Prog_CycleTime",
+                "type": "signal",
+                "event_count": 453,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            },
+            {
+                "id": "Spd_ActPos_C",
+                "type": "signal",
+                "event_count": 310,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            },
+            {
+                "id": "Spd_ActPos_X",
+                "type": "signal",
+                "event_count": 397,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            },
+            {
+                "id": "Spd_ActPos_Z",
+                "type": "signal",
+                "event_count": 391,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            },
+            {
+                "id": "Spd_ActSpeed_C",
+                "type": "signal",
+                "event_count": 310,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            },
+            {
+                "id": "Spd_ActSpeed_X",
+                "type": "signal",
+                "event_count": 397,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            },
+            {
+                "id": "Spd_ActSpeed_Z",
+                "type": "signal",
+                "event_count": 214,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            },
+            {
+                "id": "T_A_701309",
+                "type": "signal",
+                "event_count": 220,
+                "anomaly_count": 1,
+                "status": "WARNING"
+            }
+        ],
+        "insights": {
+            "summary": "The analysed equipment experienced multiple concurrent alarm clusters and signal deviations during the incident window, with the earliest anomaly being SIG-012 (Spd_ActSpeed_Z deviation) starting at 53.5 seconds, followed by alarm T_A_701309 at 19.5 seconds (though note: temporal ordering shows T_A_701309 starts earlier but SIG-012 starts at 53.5s - correction: T_A_701309 starts at 19.5s, SIG-012 at 53.5s). The alarm clusters show temporal overlap, suggesting potential cascading effects.",
+            "root_cause_hypotheses": [
+                {
+                    "description": "The initial trigger appears to be the Spd_ActSpeed_Z deviation (SIG-012) starting at 53.5 seconds, which precedes the first alarm cluster (T_A_701309) at 19.5 seconds - wait, correction: T_A_701309 starts at 19.5s which is BEFORE SIG-012 at 53.5s. Actually, T_A_701309 starts earliest at 19.5s, then SIG-012 at 53.5s, then other signals and alarms. The earliest anomaly is T_A_701309 alarm at 19.5s.",
+                    "confidence": 0.65
+                },
+                {
+                    "description": "The concurrent activation of multiple alarm signals (CLF_A_700307, F_A_700313, LP_A_700301, Prog_A_701330) and signal deviations suggests a systemic issue rather than isolated component failures, with temporal overlap indicating potential cascading effects.",
+                    "confidence": 0.78
+                }
+            ],
+            "recommendations": [
+                {
+                    "priority": "HIGH",
+                    "action": "Investigate the T_A_701309 alarm signal as the earliest detected anomaly, checking for sensor faults or wiring issues."
+                },
+                {
+                    "priority": "MEDIUM",
+                    "action": "Perform correlation analysis between the Spd_ActSpeed_Z deviation and subsequent alarm activations to assess potential causal relationships."
+                }
+            ]
+        },
+        "metadata": {
+            "parser": {
+                "name": "causRCA_python_pipeline",
+                "version": "1.0"
+            },
+            "embedding": {
+                "enabled": true,
+                "model": "sentence-transformers"
+            },
+            "retrieval": {
+                "enabled": true,
+                "method": "local_similarity"
+            },
+            "llm": {
+                "enabled": true,
+                "provider": "nvidia_nim",
+                "model": "MODEL_NAME"
+            },
+            "ground_truth": {
+                "available": false,
+                "source": "causRCA"
+            }
+        }
+    },
+    {
+        "schema_version": "1.0",
+        "system": {
+            "id": "system-001",
+            "name": "Industrial Equipment System",
+            "type": "industrial_equipment",
+            "source": "causRCA"
+        },
+        "analysis": {
+            "analysis_id": "analysis-2026-08-11-001",
+            "started_at": "2026-08-11T08:00:00Z",
+            "ended_at": "2026-08-11T08:05:42Z",
+            "total_events": 17946,
+            "unique_event_templates": 30,
+            "status": "WARNING",
+            "health_score": 72.0
+        },
+        "summary": {
+            "normal_events": 17456,
+            "anomalous_events": 490,
+            "anomaly_rate": 2.73,
+            "critical_anomalies": 17,
+            "high_anomalies": 50,
+            "medium_anomalies": 147,
+            "low_anomalies": 276
+        },
+        "event_statistics": {
+            "severity_distribution": [
+                {
+                    "level": "NORMAL",
+                    "count": 17456,
+                    "percentage": 97.27
+                },
+                {
+                    "level": "WARNING",
+                    "count": 425,
+                    "percentage": 2.37
+                },
+                {
+                    "level": "CRITICAL",
+                    "count": 65,
+                    "percentage": 0.36
+                }
+            ],
+            "top_events": [
+                {
+                    "event_id": "E0071",
+                    "template": "Prog_CycleTime",
+                    "count": 154,
+                    "percentage": 0.86
+                },
+                {
+                    "event_id": "E0079",
+                    "template": "Prog_Name_LineNo",
+                    "count": 93,
+                    "percentage": 0.52
+                },
+                {
+                    "event_id": "E0069",
+                    "template": "Prog_CuttingTime",
+                    "count": 84,
+                    "percentage": 0.47
+                }
+            ]
+        },
+        "trends": {
+            "event_rate": [
+                {
+                    "timestamp": "2026-08-11T08:00:00Z",
+                    "value": 1820.0
+                },
+                {
+                    "timestamp": "2026-08-11T09:00:00Z",
+                    "value": 2140.0
+                },
+                {
+                    "timestamp": "2026-08-11T10:00:00Z",
+                    "value": 2860.0
+                }
+            ],
+            "anomaly_rate": [
+                {
+                    "timestamp": "2026-08-11T08:00:00Z",
+                    "value": 1.2
+                },
+                {
+                    "timestamp": "2026-08-11T09:00:00Z",
+                    "value": 3.7
+                },
+                {
+                    "timestamp": "2026-08-11T10:00:00Z",
+                    "value": 8.4
+                }
+            ]
+        },
+        "anomalies": [
+            {
+                "id": "ANOM-001",
+                "severity": "HIGH",
+                "type": "SIGNAL_DEVIATION",
+                "title": "Abnormal coolant pressure deviation",
+                "description": "Coolant pressure deviated significantly from its established baseline during the analysed incident window.",
+                "first_detected": "2026-08-11T10:14:22Z",
+                "last_detected": "2026-08-11T10:47:13Z",
+                "occurrences": 137,
+                "affected_entities": [
+                    "coolant_pressure",
+                    "coolant_system",
+                    "equipment_001"
+                ],
+                "evidence": [
+                    {
+                        "metric": "coolant_pressure",
+                        "value": 42.1,
+                        "baseline": 67.4,
+                        "unit": "kPa"
+                    },
+                    {
+                        "metric": "pressure_deviation",
+                        "value": -25.3,
+                        "baseline": 0.0,
+                        "unit": "kPa"
+                    },
+                    {
+                        "metric": "anomaly_rate",
+                        "value": 8.4,
+                        "baseline": 1.7,
+                        "unit": "percent"
+                    }
+                ],
+                "possible_causes": [
+                    {
+                        "cause": "Coolant system malfunction or degradation",
+                        "confidence": 0.84
+                    },
+                    {
+                        "cause": "Abnormal operating condition or resource contention",
+                        "confidence": 0.67
+                    }
+                ],
+                "recommendations": [
+                    {
+                        "priority": "HIGH",
+                        "action": "Inspect the coolant circuit, associated components, and pressure-control mechanism."
+                    },
+                    {
+                        "priority": "MEDIUM",
+                        "action": "Compare the affected incident window against previous normal operating traces."
+                    }
+                ],
+                "confidence": 0.91
+            },
+            {
+                "id": "ANOM-002",
+                "severity": "MEDIUM",
+                "type": "ALARM_CLUSTER",
+                "title": "Repeated equipment alarm activity",
+                "description": "Multiple alarm state transitions occurred within the same incident period and overlap temporally with the primary signal deviation.",
+                "first_detected": "2026-08-11T10:19:04Z",
+                "last_detected": "2026-08-11T10:43:51Z",
+                "occurrences": 48,
+                "affected_entities": [
+                    "equipment_001",
+                    "alarm_07"
+                ],
+                "evidence": [
+                    {
+                        "metric": "alarm_occurrences",
+                        "value": 48.0,
+                        "baseline": 5.0,
+                        "unit": "events"
+                    },
+                    {
+                        "metric": "alarm_frequency",
+                        "value": 1.45,
+                        "baseline": 0.15,
+                        "unit": "events_per_minute"
+                    }
+                ],
+                "possible_causes": [
+                    {
+                        "cause": "Secondary response to abnormal equipment operating conditions",
+                        "confidence": 0.78
+                    },
+                    {
+                        "cause": "Independent equipment fault",
+                        "confidence": 0.42
+                    }
+                ],
+                "recommendations": [
+                    {
+                        "priority": "MEDIUM",
+                        "action": "Correlate the alarm transitions with coolant and hydraulic signal changes."
+                    }
+                ],
+                "confidence": 0.76
+            }
+        ],
+        "affected_entities": [
+            {
+                "id": "equipment_001",
+                "type": "equipment",
+                "event_count": 421,
+                "anomaly_count": 17,
+                "status": "WARNING"
+            },
+            {
+                "id": "coolant_system",
+                "type": "subsystem",
+                "event_count": 284,
+                "anomaly_count": 14,
+                "status": "WARNING"
+            },
+            {
+                "id": "coolant_pressure",
+                "type": "signal",
+                "event_count": 137,
+                "anomaly_count": 9,
+                "status": "CRITICAL"
+            }
+        ],
+        "insights": {
+            "summary": "The analysed equipment experienced a significant increase in anomalous behaviour during the incident window, with coolant pressure deviation temporally associated with repeated alarm activity.",
+            "root_cause_hypotheses": [
+                {
+                    "description": "The coolant subsystem is the leading root-cause hypothesis because its pressure signal shows a significant deviation from baseline and occurs during the primary anomaly window.",
+                    "confidence": 0.86
+                },
+                {
+                    "description": "The observed alarm cluster may represent a downstream consequence of the abnormal coolant operating condition rather than an independent initiating fault.",
+                    "confidence": 0.71
+                }
+            ],
+            "recommendations": [
+                {
+                    "priority": "HIGH",
+                    "action": "Inspect the coolant subsystem and pressure-control components before returning the equipment to normal operation."
+                },
+                {
+                    "priority": "MEDIUM",
+                    "action": "Review the temporal relationship between coolant pressure, hydraulic pressure, and alarm transitions."
+                }
+            ]
+        },
+        "metadata": {
+            "parser": {
+                "name": "causRCA_python_pipeline",
+                "version": "1.0"
+            },
+            "embedding": {
+                "enabled": true,
+                "model": "sentence-transformers"
+            },
+            "retrieval": {
+                "enabled": true,
+                "method": "local_similarity"
+            },
+            "llm": {
+                "enabled": true,
+                "provider": "nvidia_nim",
+                "model": "MODEL_NAME"
+            },
+            "ground_truth": {
+                "available": false,
+                "source": "causRCA"
+            }
+        }
+    },
+    {
+        "schema_version": "1.0",
+        "system": {
+            "id": "system-test-003",
+            "name": "Production Line A",
+            "type": "industrial_equipment",
+            "source": "causRCA"
+        },
+        "analysis": {
+            "analysis_id": "analysis-test-003",
+            "started_at": "2026-08-12T14:00:00Z",
+            "ended_at": "2026-08-12T14:03:21Z",
+            "total_events": 6210,
+            "unique_event_templates": 14,
+            "status": "NORMAL",
+            "health_score": 96.0
+        },
+        "summary": {
+            "normal_events": 6148,
+            "anomalous_events": 62,
+            "anomaly_rate": 1.0,
+            "critical_anomalies": 0,
+            "high_anomalies": 2,
+            "medium_anomalies": 17,
+            "low_anomalies": 43
+        },
+        "event_statistics": {
+            "severity_distribution": [
+                {
+                    "level": "NORMAL",
+                    "count": 6148,
+                    "percentage": 99.0
+                },
+                {
+                    "level": "WARNING",
+                    "count": 62,
+                    "percentage": 1.0
+                },
+                {
+                    "level": "CRITICAL",
+                    "count": 0,
+                    "percentage": 0.0
+                }
+            ],
+            "top_events": [
+                {
+                    "event_id": "E0301",
+                    "template": "Cycle_Completed",
+                    "count": 2140,
+                    "percentage": 34.46
+                },
+                {
+                    "event_id": "E0302",
+                    "template": "Component_Ready",
+                    "count": 1380,
+                    "percentage": 22.22
+                },
+                {
+                    "event_id": "E0307",
+                    "template": "Temperature_Normal",
+                    "count": 820,
+                    "percentage": 13.21
+                }
+            ]
+        },
+        "trends": {
+            "event_rate": [
+                {
+                    "timestamp": "2026-08-12T14:00:00Z",
+                    "value": 1980.0
+                },
+                {
+                    "timestamp": "2026-08-12T15:00:00Z",
+                    "value": 2040.0
+                },
+                {
+                    "timestamp": "2026-08-12T16:00:00Z",
+                    "value": 2190.0
+                }
+            ],
+            "anomaly_rate": [
+                {
+                    "timestamp": "2026-08-12T14:00:00Z",
+                    "value": 0.8
+                },
+                {
+                    "timestamp": "2026-08-12T15:00:00Z",
+                    "value": 1.1
+                },
+                {
+                    "timestamp": "2026-08-12T16:00:00Z",
+                    "value": 1.0
+                }
+            ]
+        },
+        "anomalies": [
+            {
+                "id": "ANOM-TEST-003",
+                "severity": "LOW",
+                "type": "MINOR_DEVIATION",
+                "title": "Minor temperature variation",
+                "description": "A small temperature deviation was detected but remained within acceptable operating tolerance.",
+                "first_detected": "2026-08-12T15:22:11Z",
+                "last_detected": "2026-08-12T15:26:43Z",
+                "occurrences": 12,
+                "affected_entities": [
+                    "temperature_sensor_01",
+                    "production_line_a"
+                ],
+                "evidence": [
+                    {
+                        "metric": "temperature",
+                        "value": 71.4,
+                        "baseline": 69.8,
+                        "unit": "C"
+                    }
+                ],
+                "possible_causes": [
+                    {
+                        "cause": "Normal operating variation",
+                        "confidence": 0.89
+                    }
+                ],
+                "recommendations": [
+                    {
+                        "priority": "LOW",
+                        "action": "Continue routine monitoring."
+                    }
+                ],
+                "confidence": 0.91
+            }
+        ],
+        "affected_entities": [
+            {
+                "id": "production_line_a",
+                "type": "equipment",
+                "event_count": 3120,
+                "anomaly_count": 31,
+                "status": "NORMAL"
+            },
+            {
+                "id": "temperature_sensor_01",
+                "type": "signal",
+                "event_count": 820,
+                "anomaly_count": 12,
+                "status": "NORMAL"
+            }
+        ],
+        "insights": {
+            "summary": "The production line is operating within expected conditions with only minor deviations detected.",
+            "root_cause_hypotheses": [
+                {
+                    "description": "The observed temperature variation is consistent with normal operating variability.",
+                    "confidence": 0.89
+                }
+            ],
+            "recommendations": [
+                {
+                    "priority": "LOW",
+                    "action": "Continue routine monitoring and scheduled maintenance."
+                }
+            ]
+        },
+        "metadata": {
+            "parser": {
+                "name": "causRCA_python_pipeline",
+                "version": "1.0"
+            },
+            "embedding": {
+                "enabled": true,
+                "model": "sentence-transformers"
+            },
+            "retrieval": {
+                "enabled": true,
+                "method": "local_similarity"
+            },
+            "llm": {
+                "enabled": true,
+                "provider": "nvidia_nim",
+                "model": "test-model"
+            },
+            "ground_truth": {
+                "available": false,
+                "source": "causRCA"
+            }
+        }
+    },
+    {
+        "schema_version": "1.0",
+        "system": {
+            "id": "system-001",
+            "name": "Industrial Equipment System",
+            "type": "industrial_equipment",
+            "source": "causRCA"
+        },
+        "analysis": {
+            "analysis_id": "analysis-2026-08-11-001",
+            "started_at": "2026-08-11T08:00:00Z",
+            "ended_at": "2026-08-11T08:05:42Z",
+            "total_events": 10380,
+            "unique_event_templates": 30,
+            "status": "NORMAL",
+            "health_score": 95.0
+        },
+        "summary": {
+            "normal_events": 10380,
+            "anomalous_events": 0,
+            "anomaly_rate": 0.0,
+            "critical_anomalies": 0,
+            "high_anomalies": 0,
+            "medium_anomalies": 0,
+            "low_anomalies": 0
+        },
+        "event_statistics": {
+            "severity_distribution": [
+                {
+                    "level": "NORMAL",
+                    "count": 10380,
+                    "percentage": 100.0
+                },
+                {
+                    "level": "WARNING",
+                    "count": 0,
+                    "percentage": 0.0
+                },
+                {
+                    "level": "CRITICAL",
+                    "count": 0,
+                    "percentage": 0.0
+                }
+            ],
+            "top_events": [
+                {
+                    "event_id": "E0067",
+                    "template": "Prog_CycleTime Counter INCREASE",
+                    "count": 125,
+                    "percentage": 1.2
+                },
+                {
+                    "event_id": "E0075",
+                    "template": "Prog_Name_LineNo Categorical VALUE_CHANGE",
+                    "count": 87,
+                    "percentage": 0.84
+                },
+                {
+                    "event_id": "E0065",
+                    "template": "Prog_CuttingTime Counter INCREASE",
+                    "count": 82,
+                    "percentage": 0.79
+                }
+            ]
+        },
+        "trends": {
+            "event_rate": [
+                {
+                    "timestamp": "2026-08-11T08:00:00Z",
+                    "value": 1820.0
+                },
+                {
+                    "timestamp": "2026-08-11T09:00:00Z",
+                    "value": 2140.0
+                },
+                {
+                    "timestamp": "2026-08-11T10:00:00Z",
+                    "value": 2860.0
+                }
+            ],
+            "anomaly_rate": [
+                {
+                    "timestamp": "2026-08-11T08:00:00Z",
+                    "value": 0.0
+                },
+                {
+                    "timestamp": "2026-08-11T09:00:00Z",
+                    "value": 0.0
+                },
+                {
+                    "timestamp": "2026-08-11T10:00:00Z",
+                    "value": 0.0
+                }
+            ]
+        },
+        "anomalies": [],
+        "affected_entities": [
+            {
+                "id": "Prog_CycleTime",
+                "type": "signal",
+                "event_count": 292,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_ActPos_Z",
+                "type": "signal",
+                "event_count": 292,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "SR_A_67040",
+                "type": "signal",
+                "event_count": 291,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_ActSpeed_Z",
+                "type": "signal",
+                "event_count": 290,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Prog_LineNo",
+                "type": "signal",
+                "event_count": 290,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "M_Lifebit",
+                "type": "signal",
+                "event_count": 284,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_InnerCoolOn",
+                "type": "signal",
+                "event_count": 259,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "SL_Red",
+                "type": "signal",
+                "event_count": 256,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_OuterCoolOn",
+                "type": "signal",
+                "event_count": 252,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "SL_Yellow",
+                "type": "signal",
+                "event_count": 250,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Prog_CuttingTime",
+                "type": "signal",
+                "event_count": 242,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_ActSpeed_C",
+                "type": "signal",
+                "event_count": 242,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_ActSpeed_X",
+                "type": "signal",
+                "event_count": 242,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_ActPos_C",
+                "type": "signal",
+                "event_count": 242,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_ActPos_X",
+                "type": "signal",
+                "event_count": 240,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "LP_Pump_On",
+                "type": "signal",
+                "event_count": 222,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "T_A_701309",
+                "type": "signal",
+                "event_count": 220,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "TL_unlock",
+                "type": "signal",
+                "event_count": 219,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "M_PowerOnDuration",
+                "type": "signal",
+                "event_count": 201,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "MPA_WorkPos",
+                "type": "signal",
+                "event_count": 166,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "MPA_toWorkPos",
+                "type": "signal",
+                "event_count": 166,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "ExU_On",
+                "type": "signal",
+                "event_count": 18,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            }
+        ],
+        "insights": {
+            "summary": "The system exhibited normal behavior throughout the analyzed time window with no detected anomalies. All signals remained within expected operational ranges and no alarm conditions persisted beyond their initial transient states.",
+            "root_cause_hypotheses": [],
+            "recommendations": [
+                {
+                    "priority": "LOW",
+                    "action": "Continue routine monitoring as no immediate action is required."
+                }
+            ]
+        },
+        "metadata": {
+            "parser": {
+                "name": "causRCA_python_pipeline",
+                "version": "1.0"
+            },
+            "embedding": {
+                "enabled": true,
+                "model": "sentence-transformers"
+            },
+            "retrieval": {
+                "enabled": true,
+                "method": "local_similarity"
+            },
+            "llm": {
+                "enabled": true,
+                "provider": "nvidia_nim",
+                "model": "MODEL_NAME"
+            },
+            "ground_truth": {
+                "available": false,
+                "source": "causRCA"
+            }
+        }
+    },
+    {
+        "schema_version": "1.0",
+        "system": {
+            "id": "system-001",
+            "name": "Industrial Equipment System",
+            "type": "industrial_equipment",
+            "source": "causRCA"
+        },
+        "analysis": {
+            "analysis_id": "analysis-2026-08-11-001",
+            "started_at": "2026-08-11T08:00:00Z",
+            "ended_at": "2026-08-11T08:05:42Z",
+            "total_events": 10380,
+            "unique_event_templates": 30,
+            "status": "NORMAL",
+            "health_score": 95.0
+        },
+        "summary": {
+            "normal_events": 10380,
+            "anomalous_events": 0,
+            "anomaly_rate": 0.0,
+            "critical_anomalies": 0,
+            "high_anomalies": 0,
+            "medium_anomalies": 0,
+            "low_anomalies": 0
+        },
+        "event_statistics": {
+            "severity_distribution": [
+                {
+                    "level": "NORMAL",
+                    "count": 10380,
+                    "percentage": 100.0
+                },
+                {
+                    "level": "WARNING",
+                    "count": 0,
+                    "percentage": 0.0
+                },
+                {
+                    "level": "CRITICAL",
+                    "count": 0,
+                    "percentage": 0.0
+                }
+            ],
+            "top_events": [
+                {
+                    "event_id": "E0067",
+                    "template": "Prog_CycleTime Counter INCREASE",
+                    "count": 125,
+                    "percentage": 1.2
+                },
+                {
+                    "event_id": "E0075",
+                    "template": "Prog_Name_LineNo Categorical VALUE_CHANGE",
+                    "count": 87,
+                    "percentage": 0.84
+                },
+                {
+                    "event_id": "E0065",
+                    "template": "Prog_CuttingTime Counter INCREASE",
+                    "count": 82,
+                    "percentage": 0.79
+                }
+            ]
+        },
+        "trends": {
+            "event_rate": [
+                {
+                    "timestamp": "2026-08-11T08:00:00Z",
+                    "value": 1820.0
+                },
+                {
+                    "timestamp": "2026-08-11T09:00:00Z",
+                    "value": 2140.0
+                },
+                {
+                    "timestamp": "2026-08-11T10:00:00Z",
+                    "value": 2860.0
+                }
+            ],
+            "anomaly_rate": [
+                {
+                    "timestamp": "2026-08-11T08:00:00Z",
+                    "value": 0.0
+                },
+                {
+                    "timestamp": "2026-08-11T09:00:00Z",
+                    "value": 0.0
+                },
+                {
+                    "timestamp": "2026-08-11T10:00:00Z",
+                    "value": 0.0
+                }
+            ]
+        },
+        "anomalies": [],
+        "affected_entities": [
+            {
+                "id": "Prog_CycleTime",
+                "type": "signal",
+                "event_count": 292,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_ActPos_Z",
+                "type": "signal",
+                "event_count": 292,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "SR_A_67040",
+                "type": "signal",
+                "event_count": 291,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_ActSpeed_Z",
+                "type": "signal",
+                "event_count": 290,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Prog_LineNo",
+                "type": "signal",
+                "event_count": 290,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "M_Lifebit",
+                "type": "signal",
+                "event_count": 284,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_InnerCoolOn",
+                "type": "signal",
+                "event_count": 259,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "SL_Red",
+                "type": "signal",
+                "event_count": 256,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_OuterCoolOn",
+                "type": "signal",
+                "event_count": 252,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "SL_Yellow",
+                "type": "signal",
+                "event_count": 250,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Prog_CuttingTime",
+                "type": "signal",
+                "event_count": 242,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_ActSpeed_C",
+                "type": "signal",
+                "event_count": 242,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_ActSpeed_X",
+                "type": "signal",
+                "event_count": 242,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_ActPos_C",
+                "type": "signal",
+                "event_count": 242,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "Spd_ActPos_X",
+                "type": "signal",
+                "event_count": 240,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "LP_Pump_On",
+                "type": "signal",
+                "event_count": 222,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "T_A_701309",
+                "type": "signal",
+                "event_count": 220,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "TL_unlock",
+                "type": "signal",
+                "event_count": 219,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "M_PowerOnDuration",
+                "type": "signal",
+                "event_count": 201,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "MPA_WorkPos",
+                "type": "signal",
+                "event_count": 166,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "MPA_toWorkPos",
+                "type": "signal",
+                "event_count": 166,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            },
+            {
+                "id": "ExU_On",
+                "type": "signal",
+                "event_count": 18,
+                "anomaly_count": 0,
+                "status": "OBSERVED"
+            }
+        ],
+        "insights": {
+            "summary": "The system exhibited normal behavior throughout the analyzed time window with no detected anomalies. All signals remained within expected operational ranges and no alarm conditions persisted beyond their initial transient states.",
+            "root_cause_hypotheses": [],
+            "recommendations": [
+                {
+                    "priority": "LOW",
+                    "action": "Continue routine monitoring as no immediate action is required."
+                }
+            ]
+        },
+        "metadata": {
+            "parser": {
+                "name": "causRCA_python_pipeline",
+                "version": "1.0"
+            },
+            "embedding": {
+                "enabled": true,
+                "model": "sentence-transformers"
+            },
+            "retrieval": {
+                "enabled": true,
+                "method": "local_similarity"
+            },
+            "llm": {
+                "enabled": true,
+                "provider": "nvidia_nim",
+                "model": "MODEL_NAME"
+            },
+            "ground_truth": {
+                "available": false,
+                "source": "causRCA"
+            }
+        }
     }
 ]
