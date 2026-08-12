@@ -459,41 +459,118 @@ let anomalyRateChart = null;
 // ============================================================
 
 async function loadDashboard() {
+    const source = "/data/dashboard_payload.json";
+
     try {
-        const response = await fetch("/api/dashboard", {
+        const response = await fetch(source, {
             method: "GET",
             headers: {
                 "Accept": "application/json"
-            }
+            },
+            cache: "no-store"
         });
 
         if (!response.ok) {
-            let message = `Dashboard API returned HTTP ${response.status} `;
-
-            try {
-                const errorData = await response.json();
-
-                if (errorData.detail) {
-                    message = errorData.detail;
-                }
-            } catch (_) {
-                // Ignore JSON parsing errors
-            }
-
-            throw new Error(message);
+            throw new Error(`Failed to load dashboard from ${source}: HTTP ${response.status}`);
         }
 
         const data = await response.json();
 
-        console.log("Dashboard API response:", data);
+        console.log(`Dashboard response from ${source}:`, data);
 
         renderDashboard(data);
 
     } catch (error) {
-        console.error("Dashboard loading error:", error);
-
+        console.error(`Dashboard loading error from ${source}:`, error);
         showDashboardError(error.message);
     }
+}
+
+
+function showPayloadMessage(message, isError = false) {
+    const payloadMessage = document.getElementById("payload-message");
+
+    if (!payloadMessage) {
+        return;
+    }
+
+    payloadMessage.textContent = message;
+    payloadMessage.className = `payload-message ${isError ? "error" : "success"}`;
+}
+
+
+function initializePayloadEditor() {
+    const payloadEditor = document.getElementById("payload-editor");
+    const submitButton = document.getElementById("submit-payload-button");
+    const loadButton = document.getElementById("load-payload-button");
+    const payloadMessage = document.getElementById("payload-message");
+
+    if (!payloadEditor || !submitButton || !loadButton || !payloadMessage) {
+        return;
+    }
+
+    loadButton.addEventListener("click", async () => {
+        payloadMessage.textContent = "";
+
+        try {
+            const response = await fetch("/data/dashboard_payload.json", {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json"
+                },
+                cache: "no-store"
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to load default JSON: HTTP ${response.status}`);
+            }
+
+            const data = await response.json();
+            payloadEditor.value = JSON.stringify(data, null, 2);
+            renderDashboard(data);
+            showPayloadMessage("Loaded default dashboard payload.");
+        } catch (error) {
+            showPayloadMessage(error.message, true);
+        }
+    });
+
+    submitButton.addEventListener("click", async () => {
+        payloadMessage.textContent = "";
+
+        let payload;
+
+        try {
+            payload = JSON.parse(payloadEditor.value);
+        } catch (error) {
+            showPayloadMessage("Invalid JSON. Please correct it and try again.", true);
+            return;
+        }
+
+        try {
+            const response = await fetch("/api/analysis", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.detail || result.message || `HTTP ${response.status}`);
+            }
+
+            if (result.payload) {
+                renderDashboard(result.payload);
+            }
+
+            showPayloadMessage("Payload submitted and rendered successfully.");
+        } catch (error) {
+            showPayloadMessage(error.message, true);
+        }
+    });
 }
 
 
@@ -523,7 +600,17 @@ function renderDashboard(data) {
 
     setText(
         "system-source",
-        `${systemType} • ${systemSource} `
+        `${systemType} • ${systemSource}`
+    );
+
+    setText(
+        "system-id",
+        `System ID: ${system.id || "--"}`
+    );
+
+    setText(
+        "schema-version",
+        `Schema: ${data.schema_version || "--"}`
     );
 
 
@@ -583,9 +670,30 @@ function renderDashboard(data) {
     const summary = data.summary || {};
 
     setText(
+        "analysis-id",
+        analysis.analysis_id || "--"
+    );
+
+    setText(
+        "unique-templates",
+        formatNumber(summaryValue(
+            analysis.unique_event_templates,
+            0
+        ))
+    );
+
+    setText(
         "total-events",
         formatNumber(summaryValue(
             analysis.total_events,
+            0
+        ))
+    );
+
+    setText(
+        "normal-events",
+        formatNumber(summaryValue(
+            summary.normal_events,
             0
         ))
     );
@@ -607,6 +715,30 @@ function renderDashboard(data) {
         "critical-anomalies",
         formatNumber(summaryValue(
             summary.critical_anomalies,
+            0
+        ))
+    );
+
+    setText(
+        "high-anomalies",
+        formatNumber(summaryValue(
+            summary.high_anomalies,
+            0
+        ))
+    );
+
+    setText(
+        "medium-anomalies",
+        formatNumber(summaryValue(
+            summary.medium_anomalies,
+            0
+        ))
+    );
+
+    setText(
+        "low-anomalies",
+        formatNumber(summaryValue(
+            summary.low_anomalies,
             0
         ))
     );
@@ -669,6 +801,15 @@ function renderDashboard(data) {
 
     renderInsights(
         data.insights || {}
+    );
+
+
+    // ----------------------------------------
+    // METADATA
+    // ----------------------------------------
+
+    renderMetadata(
+        data.metadata || {}
     );
 
 
@@ -962,211 +1103,100 @@ function renderAnomalies(anomalies) {
 
     anomalies.forEach(anomaly => {
 
-        const card =
-            document.createElement("div");
-
+        const card = document.createElement("div");
         card.className = "anomaly-card";
 
+        const title = document.createElement("h3");
+        title.textContent = anomaly.title || "Unnamed anomaly";
+        card.appendChild(title);
 
-        // ----------------------------------------
-        // POSSIBLE CAUSES
-        // ----------------------------------------
+        const badge = document.createElement("span");
+        badge.className = "badge";
+        badge.textContent = anomaly.severity || "--";
+        card.appendChild(badge);
 
-        let causes = "";
+        const description = document.createElement("p");
+        description.textContent = anomaly.description || "";
+        card.appendChild(description);
 
-        const possibleCauses =
-            Array.isArray(anomaly.possible_causes)
-                ? anomaly.possible_causes
-                : [];
+        const metaFields = [
+            ["Type", anomaly.type || "--"],
+            ["Occurrences", formatNumber(anomaly.occurrences)],
+            ["Confidence", formatConfidence(anomaly.confidence)],
+            ["First Detected", formatDate(anomaly.first_detected)],
+            ["Last Detected", formatDate(anomaly.last_detected)],
+        ];
 
-        possibleCauses.forEach(cause => {
-
-            causes += `
-    <div class="cause">
-
-                    <strong>
-                        ${escapeHtml(
-                cause.cause || "--"
-            )}
-                    </strong>
-
-                    <br>
-
-                    Confidence:
-                    ${formatConfidence(
-                cause.confidence
-            )}
-
-                </div>
-`;
+        metaFields.forEach(([label, value]) => {
+            const paragraph = document.createElement("p");
+            paragraph.innerHTML = `<strong>${escapeHtml(label)}:</strong> ${escapeHtml(value)}`;
+            card.appendChild(paragraph);
         });
 
-        if (!causes) {
-            causes = `
-    <p> No possible causes available.</p>
-        `;
+        const evidenceHeading = document.createElement("h4");
+        evidenceHeading.textContent = "Evidence";
+        card.appendChild(evidenceHeading);
+
+        const evidenceList = document.createElement("ul");
+        const anomalyEvidence = Array.isArray(anomaly.evidence)
+            ? anomaly.evidence
+            : [];
+
+        if (anomalyEvidence.length === 0) {
+            const listItem = document.createElement("li");
+            listItem.textContent = "No evidence available.";
+            evidenceList.appendChild(listItem);
+        } else {
+            anomalyEvidence.forEach(item => {
+                const listItem = document.createElement("li");
+                listItem.innerHTML = `${escapeHtml(item.metric || "--")}: ${escapeHtml(item.value ?? "--")} ${escapeHtml(item.unit || "")} (baseline: ${escapeHtml(item.baseline ?? "--")})`;
+                evidenceList.appendChild(listItem);
+            });
         }
 
+        card.appendChild(evidenceList);
 
-        // ----------------------------------------
-        // RECOMMENDATIONS
-        // ----------------------------------------
+        const causesHeading = document.createElement("h4");
+        causesHeading.textContent = "Possible Causes";
+        card.appendChild(causesHeading);
 
-        let recommendations = "";
+        const possibleCauses = Array.isArray(anomaly.possible_causes)
+            ? anomaly.possible_causes
+            : [];
 
-        const anomalyRecommendations =
-            Array.isArray(anomaly.recommendations)
-                ? anomaly.recommendations
-                : [];
-
-        anomalyRecommendations.forEach(rec => {
-
-            recommendations += `
-        <div class="recommendation">
-
-            <strong>
-                ${escapeHtml(
-                rec.priority || "--"
-            )}
-            </strong>
-
-                    —
-                    ${escapeHtml(
-                rec.action || "--"
-            )
-                }
-
-                </div>
-    `;
-        });
-
-        if (!recommendations) {
-            recommendations = `
-    <p> No recommendations available.</p>
-        `;
+        if (possibleCauses.length === 0) {
+            const noCauses = document.createElement("p");
+            noCauses.textContent = "No possible causes available.";
+            card.appendChild(noCauses);
+        } else {
+            possibleCauses.forEach(cause => {
+                const causeDiv = document.createElement("div");
+                causeDiv.className = "cause";
+                causeDiv.innerHTML = `<strong>${escapeHtml(cause.cause || "--")}</strong><br>Confidence: ${escapeHtml(formatConfidence(cause.confidence))}`;
+                card.appendChild(causeDiv);
+            });
         }
 
+        const recommendationsHeading = document.createElement("h4");
+        recommendationsHeading.textContent = "Recommendations";
+        card.appendChild(recommendationsHeading);
 
-        // ----------------------------------------
-        // EVIDENCE
-        // ----------------------------------------
+        const anomalyRecommendations = Array.isArray(anomaly.recommendations)
+            ? anomaly.recommendations
+            : [];
 
-        let evidence = "";
-
-        const anomalyEvidence =
-            Array.isArray(anomaly.evidence)
-                ? anomaly.evidence
-                : [];
-
-        anomalyEvidence.forEach(item => {
-
-            evidence += `
-        <li>
-
-        ${escapeHtml(
-                item.metric || "--"
-            )
-                }:
-
-                    ${escapeHtml(
-                    item.value ?? "--"
-                )
-                }
-
-                    ${escapeHtml(
-                    item.unit || ""
-                )
-                }
-
-(baseline:
-    ${escapeHtml(
-                    item.baseline ?? "--"
-                )})
-
-                </li>
-    `;
-        });
-
-        if (!evidence) {
-            evidence = `
-    <li> No evidence available.</li>
-        `;
+        if (anomalyRecommendations.length === 0) {
+            const noRecommendations = document.createElement("p");
+            noRecommendations.textContent = "No recommendations available.";
+            card.appendChild(noRecommendations);
+        } else {
+            anomalyRecommendations.forEach(rec => {
+                const recDiv = document.createElement("div");
+                recDiv.className = "recommendation";
+                recDiv.innerHTML = `<strong>${escapeHtml(rec.priority || "--")}</strong> — ${escapeHtml(rec.action || "--")}`;
+                card.appendChild(recDiv);
+            });
         }
-
-
-        // ----------------------------------------
-        // ANOMALY CARD
-        // ----------------------------------------
-
-        card.innerHTML = `
-        <h3>
-        ${escapeHtml(
-            anomaly.title || "Unnamed anomaly"
-        )
-            }
-            </h3>
-
-            <span class="badge">
-                ${escapeHtml(
-                anomaly.severity || "--"
-            )}
-            </span>
-
-            <p>
-                ${escapeHtml(
-                anomaly.description || ""
-            )}
-            </p>
-
-            <p>
-                <strong>Type:</strong>
-                ${escapeHtml(
-                anomaly.type || "--"
-            )}
-            </p>
-
-            <p>
-                <strong>Occurrences:</strong>
-                ${formatNumber(
-                anomaly.occurrences
-            )}
-            </p>
-
-            <p>
-                <strong>Confidence:</strong>
-                ${formatConfidence(
-                anomaly.confidence
-            )}
-            </p>
-
-            <p>
-                <strong>First Detected:</strong>
-                ${formatDate(
-                anomaly.first_detected
-            )}
-            </p>
-
-            <p>
-                <strong>Last Detected:</strong>
-                ${formatDate(
-                anomaly.last_detected
-            )}
-            </p>
-
-            <h4>Evidence</h4>
-
-            <ul>
-                ${evidence}
-            </ul>
-
-            <h4>Possible Causes</h4>
-
-            ${causes}
-
-<h4>Recommendations</h4>
-
-            ${recommendations}
-`;
 
         container.appendChild(card);
     });
@@ -1184,7 +1214,6 @@ function renderInsights(insights) {
 
     const rootCausesContainer =
         document.getElementById("root-causes");
-
 
     // ----------------------------------------
     // SUMMARY
@@ -1290,6 +1319,52 @@ function renderInsights(insights) {
             }
         );
     }
+}
+
+
+// ============================================================
+// METADATA
+// ============================================================
+
+function renderMetadata(metadata) {
+
+    setText(
+        "parser-name",
+        metadata.parser?.name || "--"
+    );
+
+    setText(
+        "parser-version",
+        metadata.parser?.version || "--"
+    );
+
+    setText(
+        "embedding-info",
+        metadata.embedding
+            ? `${metadata.embedding.enabled ? "Enabled" : "Disabled"} • ${metadata.embedding.model}`
+            : "--"
+    );
+
+    setText(
+        "retrieval-info",
+        metadata.retrieval
+            ? `${metadata.retrieval.enabled ? "Enabled" : "Disabled"} • ${metadata.retrieval.method}`
+            : "--"
+    );
+
+    setText(
+        "llm-info",
+        metadata.llm
+            ? `${metadata.llm.enabled ? "Enabled" : "Disabled"} • ${metadata.llm.provider} • ${metadata.llm.model}`
+            : "--"
+    );
+
+    setText(
+        "ground-truth-info",
+        metadata.ground_truth
+            ? `${metadata.ground_truth.available ? "Available" : "Unavailable"} • ${metadata.ground_truth.source}`
+            : "--"
+    );
 }
 
 
@@ -1580,5 +1655,8 @@ function showDashboardError(message) {
 
 document.addEventListener(
     "DOMContentLoaded",
-    loadDashboard
+    () => {
+        loadDashboard();
+        initializePayloadEditor();
+    }
 );

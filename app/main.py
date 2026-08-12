@@ -22,6 +22,7 @@ app = FastAPI(
 )
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+app.mount("/data", StaticFiles(directory=DATA_DIR), name="data")
 
 
 @app.on_event("startup")
@@ -69,8 +70,9 @@ def create_analysis(payload: dict):
 
         return {
             "success": True,
-            "message": "Payload validated and stored successfully",
+            "message": "Payload validated, stored, and returned successfully",
             "analysis_id": validated.analysis.analysis_id,
+            "payload": validated.model_dump(mode="json"),
         }
 
     except Exception as exc:

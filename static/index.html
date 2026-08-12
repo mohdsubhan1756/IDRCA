@@ -19,6 +19,8 @@
         <div>
             <h1 id="system-name">Machine Dashboard</h1>
             <p id="system-source"></p>
+            <p id="system-id" class="subtext"></p>
+            <p id="schema-version" class="subtext"></p>
         </div>
 
         <div id="status-badge" class="status">
@@ -52,6 +54,21 @@
 
         </section>
 
+        <section class="card analysis-details-card">
+            <h2>Analysis Details</h2>
+            <p><strong>Analysis ID:</strong> <span id="analysis-id">--</span></p>
+            <p><strong>Unique Event Templates:</strong> <span id="unique-templates">--</span></p>
+        </section>
+
+        <section class="card payload-card">
+            <h2>Submit JSON Payload</h2>
+            <textarea id="payload-editor" placeholder="Paste the analysis JSON here..."></textarea>
+            <div class="button-row">
+                <button id="submit-payload-button" class="primary">Submit to /api/analysis</button>
+                <button id="load-payload-button">Load default JSON</button>
+            </div>
+            <p id="payload-message" class="payload-message"></p>
+        </section>
 
         <!-- KPI Cards -->
         <section class="kpi-grid">
@@ -74,6 +91,26 @@
             <div class="card">
                 <h3>Critical Anomalies</h3>
                 <p id="critical-anomalies">--</p>
+            </div>
+
+            <div class="card">
+                <h3>Normal Events</h3>
+                <p id="normal-events">--</p>
+            </div>
+
+            <div class="card">
+                <h3>High Anomalies</h3>
+                <p id="high-anomalies">--</p>
+            </div>
+
+            <div class="card">
+                <h3>Medium Anomalies</h3>
+                <p id="medium-anomalies">--</p>
+            </div>
+
+            <div class="card">
+                <h3>Low Anomalies</h3>
+                <p id="low-anomalies">--</p>
             </div>
 
         </section>
@@ -146,6 +183,37 @@
 
         </section>
 
+        <section class="card metadata-card">
+            <h2>Metadata</h2>
+            <table class="metadata-table">
+                <tbody>
+                    <tr>
+                        <th>Parser</th>
+                        <td id="parser-name">--</td>
+                    </tr>
+                    <tr>
+                        <th>Parser Version</th>
+                        <td id="parser-version">--</td>
+                    </tr>
+                    <tr>
+                        <th>Embedding</th>
+                        <td id="embedding-info">--</td>
+                    </tr>
+                    <tr>
+                        <th>Retrieval</th>
+                        <td id="retrieval-info">--</td>
+                    </tr>
+                    <tr>
+                        <th>LLM</th>
+                        <td id="llm-info">--</td>
+                    </tr>
+                    <tr>
+                        <th>Ground Truth</th>
+                        <td id="ground-truth-info">--</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
         <!-- Entities -->
         <section class="card">
@@ -174,7 +242,7 @@
     </main>
 
 
-    <script src="/static/app.js"></script>
+    <script src="/static/app.js?v=2"></script>
 
 </body>
 

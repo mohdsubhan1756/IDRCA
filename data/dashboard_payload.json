@@ -2,58 +2,64 @@
     "schema_version": "1.0",
     "system": {
         "id": "system-001",
-        "name": "HDFS Cluster",
-        "type": "distributed_system",
-        "source": "HDFS_v1"
+        "name": "Industrial Equipment System",
+        "type": "industrial_equipment",
+        "source": "causRCA"
     },
     "analysis": {
         "analysis_id": "analysis-2026-08-11-001",
         "started_at": "2026-08-11T08:00:00Z",
-        "ended_at": "2026-08-11T18:00:00Z",
-        "total_events": 125430,
-        "unique_event_templates": 46,
+        "ended_at": "2026-08-11T08:05:42Z",
+        "total_events": 17946,
+        "unique_event_templates": 30,
         "status": "WARNING",
         "health_score": 72
     },
     "summary": {
-        "normal_events": 121842,
-        "anomalous_events": 3588,
-        "anomaly_rate": 2.86,
-        "critical_anomalies": 124,
-        "high_anomalies": 416,
-        "medium_anomalies": 1082,
-        "low_anomalies": 1966
+        "normal_events": 17456,
+        "anomalous_events": 490,
+        "anomaly_rate": 2.73,
+        "critical_anomalies": 17,
+        "high_anomalies": 50,
+        "medium_anomalies": 147,
+        "low_anomalies": 276
     },
     "event_statistics": {
         "severity_distribution": [
             {
-                "level": "INFO",
-                "count": 120000,
-                "percentage": 95.67
+                "level": "NORMAL",
+                "count": 17456,
+                "percentage": 97.27
             },
             {
                 "level": "WARNING",
-                "count": 4200,
-                "percentage": 3.35
+                "count": 425,
+                "percentage": 2.37
             },
             {
-                "level": "ERROR",
-                "count": 1230,
-                "percentage": 0.98
+                "level": "CRITICAL",
+                "count": 65,
+                "percentage": 0.36
             }
         ],
         "top_events": [
             {
-                "event_id": "E001",
-                "template": "PacketResponder <*> for block <*> terminating",
-                "count": 4210,
-                "percentage": 3.36
+                "event_id": "E0071",
+                "template": "Prog_CycleTime",
+                "count": 154,
+                "percentage": 0.86
             },
             {
-                "event_id": "E002",
-                "template": "Received block <*> of size <*>",
-                "count": 3890,
-                "percentage": 3.10
+                "event_id": "E0079",
+                "template": "Prog_Name_LineNo",
+                "count": 93,
+                "percentage": 0.52
+            },
+            {
+                "event_id": "E0069",
+                "template": "Prog_CuttingTime",
+                "count": 84,
+                "percentage": 0.47
             }
         ]
     },
@@ -66,6 +72,10 @@
             {
                 "timestamp": "2026-08-11T09:00:00Z",
                 "value": 2140
+            },
+            {
+                "timestamp": "2026-08-11T10:00:00Z",
+                "value": 2860
             }
         ],
         "anomaly_rate": [
@@ -76,6 +86,10 @@
             {
                 "timestamp": "2026-08-11T09:00:00Z",
                 "value": 3.7
+            },
+            {
+                "timestamp": "2026-08-11T10:00:00Z",
+                "value": 8.4
             }
         ]
     },
@@ -83,22 +97,29 @@
         {
             "id": "ANOM-001",
             "severity": "HIGH",
-            "type": "FREQUENCY_SPIKE",
-            "title": "Abnormal increase in event frequency",
-            "description": "A significant increase in the frequency of event E042 was detected.",
+            "type": "SIGNAL_DEVIATION",
+            "title": "Abnormal coolant pressure deviation",
+            "description": "Coolant pressure deviated significantly from its established baseline during the analysed incident window.",
             "first_detected": "2026-08-11T10:14:22Z",
             "last_detected": "2026-08-11T10:47:13Z",
             "occurrences": 137,
             "affected_entities": [
-                "blk_12345",
-                "blk_67890"
+                "coolant_pressure",
+                "coolant_system",
+                "equipment_001"
             ],
             "evidence": [
                 {
-                    "metric": "event_frequency",
-                    "value": 137,
-                    "baseline": 12,
-                    "unit": "events"
+                    "metric": "coolant_pressure",
+                    "value": 42.1,
+                    "baseline": 67.4,
+                    "unit": "kPa"
+                },
+                {
+                    "metric": "pressure_deviation",
+                    "value": -25.3,
+                    "baseline": 0.0,
+                    "unit": "kPa"
                 },
                 {
                     "metric": "anomaly_rate",
@@ -109,62 +130,122 @@
             ],
             "possible_causes": [
                 {
-                    "cause": "Repeated failure of a system component",
+                    "cause": "Coolant system malfunction or degradation",
                     "confidence": 0.84
                 },
                 {
-                    "cause": "Abnormal workload or resource contention",
+                    "cause": "Abnormal operating condition or resource contention",
                     "confidence": 0.67
                 }
             ],
             "recommendations": [
                 {
                     "priority": "HIGH",
-                    "action": "Inspect the events associated with E042 and affected entities."
+                    "action": "Inspect the coolant circuit, associated components, and pressure-control mechanism."
                 },
                 {
                     "priority": "MEDIUM",
-                    "action": "Compare the affected period against previous normal traces."
+                    "action": "Compare the affected incident window against previous normal operating traces."
                 }
             ],
             "confidence": 0.91
+        },
+        {
+            "id": "ANOM-002",
+            "severity": "MEDIUM",
+            "type": "ALARM_CLUSTER",
+            "title": "Repeated equipment alarm activity",
+            "description": "Multiple alarm state transitions occurred within the same incident period and overlap temporally with the primary signal deviation.",
+            "first_detected": "2026-08-11T10:19:04Z",
+            "last_detected": "2026-08-11T10:43:51Z",
+            "occurrences": 48,
+            "affected_entities": [
+                "equipment_001",
+                "alarm_07"
+            ],
+            "evidence": [
+                {
+                    "metric": "alarm_occurrences",
+                    "value": 48,
+                    "baseline": 5,
+                    "unit": "events"
+                },
+                {
+                    "metric": "alarm_frequency",
+                    "value": 1.45,
+                    "baseline": 0.15,
+                    "unit": "events_per_minute"
+                }
+            ],
+            "possible_causes": [
+                {
+                    "cause": "Secondary response to abnormal equipment operating conditions",
+                    "confidence": 0.78
+                },
+                {
+                    "cause": "Independent equipment fault",
+                    "confidence": 0.42
+                }
+            ],
+            "recommendations": [
+                {
+                    "priority": "MEDIUM",
+                    "action": "Correlate the alarm transitions with coolant and hydraulic signal changes."
+                }
+            ],
+            "confidence": 0.76
         }
     ],
     "affected_entities": [
         {
-            "id": "blk_12345",
-            "type": "block",
+            "id": "equipment_001",
+            "type": "equipment",
             "event_count": 421,
             "anomaly_count": 17,
             "status": "WARNING"
         },
         {
-            "id": "blk_67890",
-            "type": "block",
-            "event_count": 0,
-            "anomaly_count": 0,
+            "id": "coolant_system",
+            "type": "subsystem",
+            "event_count": 284,
+            "anomaly_count": 14,
             "status": "WARNING"
+        },
+        {
+            "id": "coolant_pressure",
+            "type": "signal",
+            "event_count": 137,
+            "anomaly_count": 9,
+            "status": "CRITICAL"
         }
     ],
     "insights": {
-        "summary": "The system experienced a significant increase in anomalous events during the analysed period.",
+        "summary": "The analysed equipment experienced a significant increase in anomalous behaviour during the incident window, with coolant pressure deviation temporally associated with repeated alarm activity.",
         "root_cause_hypotheses": [
             {
-                "description": "Repeated occurrence of a specific event pattern appears to be associated with the detected anomaly cluster.",
+                "description": "The coolant subsystem is the leading root-cause hypothesis because its pressure signal shows a significant deviation from baseline and occurs during the primary anomaly window.",
                 "confidence": 0.86
+            },
+            {
+                "description": "The observed alarm cluster may represent a downstream consequence of the abnormal coolant operating condition rather than an independent initiating fault.",
+                "confidence": 0.71
             }
         ],
         "recommendations": [
             {
                 "priority": "HIGH",
-                "action": "Investigate the highest-frequency anomalous event patterns."
+                "action": "Inspect the coolant subsystem and pressure-control components before returning the equipment to normal operation."
+            },
+            {
+                "priority": "MEDIUM",
+                "action": "Review the temporal relationship between coolant pressure, hydraulic pressure, and alarm transitions."
             }
         ]
     },
     "metadata": {
         "parser": {
-            "name": "Drain",
-            "version": "x.x"
+            "name": "causRCA_python_pipeline",
+            "version": "1.0"
         },
         "embedding": {
             "enabled": true,
@@ -176,12 +257,12 @@
         },
         "llm": {
             "enabled": true,
-            "provider": "cloud_api",
+            "provider": "nvidia_nim",
             "model": "MODEL_NAME"
         },
         "ground_truth": {
-            "available": true,
-            "source": "HDFS_v1"
+            "available": false,
+            "source": "causRCA"
         }
     }
 }
