@@ -4,9 +4,17 @@
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f7fa;
-    color: #222;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #f8f9fa;
+    color: #343a40;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+    --primary-color: #4a69ff;
+    --border-color: #dee2e6;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .header {
@@ -17,7 +25,7 @@ body {
     padding: 20px 40px;
 
     background: #ffffff;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .header h1 {
@@ -26,31 +34,58 @@ body {
 
 .subtext {
     margin: 4px 0 0;
-    color: #555;
+    color: #6c757d;
     font-size: 0.95rem;
 }
 
-.container {
-    max-width: 1400px;
-    margin: auto;
+.page-layout {
+    display: flex;
+    align-items: flex-start;
+}
+
+.sidebar {
+    width: 400px;
+    flex-shrink: 0;
+    background: #ffffff;
+    border-right: 1px solid var(--border-color);
+    height: calc(100vh - 85px); /* Full height minus header */
+    overflow-y: auto;
+}
+
+.sidebar-content {
     padding: 30px;
+}
+
+.container {
+    flex-grow: 1;
+    padding: 30px;
+    max-width: calc(100% - 400px);
 }
 
 .status {
     padding: 10px 18px;
     border-radius: 20px;
+    font-size: 0.9rem;
     font-weight: bold;
+    color: #fff;
+    background-color: #6c757d; /* Default/Loading */
 }
+
+.status[data-status="NORMAL"] { background-color: #28a745; }
+.status[data-status="WARNING"] { background-color: #ffc107; color: #343a40; }
+.status[data-status="CRITICAL"] { background-color: #dc3545; }
 
 .health-card {
     display: grid;
     grid-template-columns: 2fr 1fr 2fr;
+    align-items: center;
     gap: 20px;
 
     padding: 25px;
 
     background: white;
-    border-radius: 12px;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
 
     margin-bottom: 25px;
 }
@@ -62,8 +97,9 @@ body {
 
 .kpi-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
+    margin-top: 25px;
 
     margin-bottom: 25px;
 }
@@ -71,53 +107,62 @@ body {
 .card {
     background: white;
     padding: 20px;
-
-    border-radius: 12px;
-
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
 
     margin-bottom: 25px;
 }
 
 .payload-card textarea {
+    margin-top: 12px;
     width: 100%;
     min-height: 180px;
     padding: 14px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 10px;
     font-family: monospace;
     font-size: 0.95rem;
     resize: vertical;
-    margin-bottom: 12px;
 }
 
-.button-row {
+.editor-controls {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* Allow buttons to wrap on small screens */
     gap: 12px;
     margin-bottom: 12px;
 }
 
-.button-row button {
+button {
     padding: 12px 18px;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.2s ease-in-out;
 }
 
 button.primary {
-    background: #3751ff;
+    background: var(--primary-color);
     color: white;
 }
 
+button.primary:hover {
+    background: #3b58e0;
+}
+
 button:not(.primary) {
-    background: #f0f2f7;
-    color: #222;
+    background: #e9ecef;
+    color: #343a40;
+}
+
+.button:not(.primary):hover {
+    background: #d9dde3;
 }
 
 .payload-message {
-    margin: 0;
+    margin-top: 12px;
     color: #333;
     min-height: 1.25rem;
 }
@@ -132,34 +177,32 @@ button:not(.primary) {
 
 .card h3 {
     margin-top: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
 .card p {
-    font-size: 28px;
-    font-weight: bold;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 8px 0 0;
 }
 
 .charts-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
-}
-
-.analysis-details-card,
-.metadata-card {
-    grid-column: span 3;
 }
 
 .metadata-table th,
 .metadata-table td {
     padding: 10px;
-    text-align: left;
+    text-align: left; 
     border-bottom: none;
 }
 
 .metadata-table th {
     width: 180px;
-    color: #555;
+    color: #6c757d;
 }
 
 .chart-card {
@@ -172,30 +215,42 @@ button:not(.primary) {
 
 table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+thead th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    border-bottom: 2px solid var(--border-color);
+    font-size: 0.9rem;
 }
 
 th,
 td {
-    padding: 12px;
+    padding: 14px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .anomaly-card {
     background: white;
     padding: 20px;
-
-    border-radius: 12px;
-
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
     margin-bottom: 20px;
-
-    border-left: 5px solid #d9534f;
+    border-left: 5px solid; /* Color will be set by severity */
 }
 
 .anomaly-card h3 {
     margin-top: 0;
 }
+
+.anomaly-card[data-severity="CRITICAL"] { border-left-color: #dc3545; }
+.anomaly-card[data-severity="HIGH"] { border-left-color: #fd7e14; }
+.anomaly-card[data-severity="MEDIUM"] { border-left-color: #ffc107; }
+.anomaly-card[data-severity="LOW"] { border-left-color: #17a2b8; }
+
 
 .badge {
     display: inline-block;
@@ -204,12 +259,18 @@ td {
 
     border-radius: 12px;
 
-    font-size: 12px;
-    font-weight: bold;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
+.badge[data-severity="CRITICAL"] { background-color: #dc3545; color: white; }
+.badge[data-severity="HIGH"] { background-color: #fd7e14; color: white; }
+.badge[data-severity="MEDIUM"] { background-color: #ffc107; color: #343a40; }
+.badge[data-severity="LOW"] { background-color: #17a2b8; color: white; }
 .cause {
-    background: #f5f5f5;
+    background: #f8f9fa;
     padding: 10px;
 
     border-radius: 8px;
@@ -220,13 +281,85 @@ td {
 .recommendation {
     padding: 10px;
 
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#trends-container {
+    margin-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+}
+
+#trends-container h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.trend-item {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed #eee;
+}
+
+.trend-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.trend-item h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.trend-item p {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.trend-delta {
+    font-size: 0.9rem;
+    font-weight: normal;
+    margin-left: 0.5rem;
+}
+
+.trend-up {
+    color: #28a745; /* Green for positive change (good for health score) */
+}
+
+.trend-down {
+    color: #dc3545; /* Red for negative change (bad for health score) */
+}
+
+/* For anomaly rate, up is bad, down is good */
+.trend-item:nth-of-type(2) .trend-up {
+    color: #dc3545; /* Red for positive change (bad for anomaly rate) */
+}
+
+.trend-item:nth-of-type(2) .trend-down {
+    color: #28a745; /* Green for negative change (good for anomaly rate) */
+}
+
+.trend-sparkline {
+    height: 20px; /* Placeholder for future sparkline charts */
+}
+
+@media (max-width: 1200px) {
+    .page-layout {
+        flex-direction: column;
+    }
+    .sidebar, .container {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
 }
 
 @media (max-width: 900px) {
-
     .kpi-grid,
-    .charts-grid,
     .health-card {
         grid-template-columns: 1fr;
     }
