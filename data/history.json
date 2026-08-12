@@ -1,0 +1,666 @@
+[
+    {
+        "schema_version": "1.0",
+        "system": {
+            "id": "system-001",
+            "name": "Industrial Equipment System",
+            "type": "industrial_equipment",
+            "source": "causRCA"
+        },
+        "analysis": {
+            "analysis_id": "analysis-2026-08-11-001",
+            "started_at": "2026-08-11T08:00:00Z",
+            "ended_at": "2026-08-11T08:05:42Z",
+            "total_events": 17946,
+            "unique_event_templates": 30,
+            "status": "WARNING",
+            "health_score": 72.0
+        },
+        "summary": {
+            "normal_events": 17456,
+            "anomalous_events": 490,
+            "anomaly_rate": 2.73,
+            "critical_anomalies": 17,
+            "high_anomalies": 50,
+            "medium_anomalies": 147,
+            "low_anomalies": 276
+        },
+        "event_statistics": {
+            "severity_distribution": [
+                {
+                    "level": "NORMAL",
+                    "count": 17456,
+                    "percentage": 97.27
+                },
+                {
+                    "level": "WARNING",
+                    "count": 425,
+                    "percentage": 2.37
+                },
+                {
+                    "level": "CRITICAL",
+                    "count": 65,
+                    "percentage": 0.36
+                }
+            ],
+            "top_events": [
+                {
+                    "event_id": "E0071",
+                    "template": "Prog_CycleTime",
+                    "count": 154,
+                    "percentage": 0.86
+                },
+                {
+                    "event_id": "E0079",
+                    "template": "Prog_Name_LineNo",
+                    "count": 93,
+                    "percentage": 0.52
+                },
+                {
+                    "event_id": "E0069",
+                    "template": "Prog_CuttingTime",
+                    "count": 84,
+                    "percentage": 0.47
+                }
+            ]
+        },
+        "trends": {
+            "event_rate": [
+                {
+                    "timestamp": "2026-08-11T08:00:00Z",
+                    "value": 1820.0
+                },
+                {
+                    "timestamp": "2026-08-11T09:00:00Z",
+                    "value": 2140.0
+                },
+                {
+                    "timestamp": "2026-08-11T10:00:00Z",
+                    "value": 2860.0
+                }
+            ],
+            "anomaly_rate": [
+                {
+                    "timestamp": "2026-08-11T08:00:00Z",
+                    "value": 1.2
+                },
+                {
+                    "timestamp": "2026-08-11T09:00:00Z",
+                    "value": 3.7
+                },
+                {
+                    "timestamp": "2026-08-11T10:00:00Z",
+                    "value": 8.4
+                }
+            ]
+        },
+        "anomalies": [
+            {
+                "id": "ANOM-001",
+                "severity": "HIGH",
+                "type": "SIGNAL_DEVIATION",
+                "title": "Abnormal coolant pressure deviation",
+                "description": "Coolant pressure deviated significantly from its established baseline during the analysed incident window.",
+                "first_detected": "2026-08-11T10:14:22Z",
+                "last_detected": "2026-08-11T10:47:13Z",
+                "occurrences": 137,
+                "affected_entities": [
+                    "coolant_pressure",
+                    "coolant_system",
+                    "equipment_001"
+                ],
+                "evidence": [
+                    {
+                        "metric": "coolant_pressure",
+                        "value": 42.1,
+                        "baseline": 67.4,
+                        "unit": "kPa"
+                    },
+                    {
+                        "metric": "pressure_deviation",
+                        "value": -25.3,
+                        "baseline": 0.0,
+                        "unit": "kPa"
+                    },
+                    {
+                        "metric": "anomaly_rate",
+                        "value": 8.4,
+                        "baseline": 1.7,
+                        "unit": "percent"
+                    }
+                ],
+                "possible_causes": [
+                    {
+                        "cause": "Coolant system malfunction or degradation",
+                        "confidence": 0.84
+                    },
+                    {
+                        "cause": "Abnormal operating condition or resource contention",
+                        "confidence": 0.67
+                    }
+                ],
+                "recommendations": [
+                    {
+                        "priority": "HIGH",
+                        "action": "Inspect the coolant circuit, associated components, and pressure-control mechanism."
+                    },
+                    {
+                        "priority": "MEDIUM",
+                        "action": "Compare the affected incident window against previous normal operating traces."
+                    }
+                ],
+                "confidence": 0.91
+            },
+            {
+                "id": "ANOM-002",
+                "severity": "MEDIUM",
+                "type": "ALARM_CLUSTER",
+                "title": "Repeated equipment alarm activity",
+                "description": "Multiple alarm state transitions occurred within the same incident period and overlap temporally with the primary signal deviation.",
+                "first_detected": "2026-08-11T10:19:04Z",
+                "last_detected": "2026-08-11T10:43:51Z",
+                "occurrences": 48,
+                "affected_entities": [
+                    "equipment_001",
+                    "alarm_07"
+                ],
+                "evidence": [
+                    {
+                        "metric": "alarm_occurrences",
+                        "value": 48.0,
+                        "baseline": 5.0,
+                        "unit": "events"
+                    },
+                    {
+                        "metric": "alarm_frequency",
+                        "value": 1.45,
+                        "baseline": 0.15,
+                        "unit": "events_per_minute"
+                    }
+                ],
+                "possible_causes": [
+                    {
+                        "cause": "Secondary response to abnormal equipment operating conditions",
+                        "confidence": 0.78
+                    },
+                    {
+                        "cause": "Independent equipment fault",
+                        "confidence": 0.42
+                    }
+                ],
+                "recommendations": [
+                    {
+                        "priority": "MEDIUM",
+                        "action": "Correlate the alarm transitions with coolant and hydraulic signal changes."
+                    }
+                ],
+                "confidence": 0.76
+            }
+        ],
+        "affected_entities": [
+            {
+                "id": "equipment_001",
+                "type": "equipment",
+                "event_count": 421,
+                "anomaly_count": 17,
+                "status": "WARNING"
+            },
+            {
+                "id": "coolant_system",
+                "type": "subsystem",
+                "event_count": 284,
+                "anomaly_count": 14,
+                "status": "WARNING"
+            },
+            {
+                "id": "coolant_pressure",
+                "type": "signal",
+                "event_count": 137,
+                "anomaly_count": 9,
+                "status": "CRITICAL"
+            }
+        ],
+        "insights": {
+            "summary": "The analysed equipment experienced a significant increase in anomalous behaviour during the incident window, with coolant pressure deviation temporally associated with repeated alarm activity.",
+            "root_cause_hypotheses": [
+                {
+                    "description": "The coolant subsystem is the leading root-cause hypothesis because its pressure signal shows a significant deviation from baseline and occurs during the primary anomaly window.",
+                    "confidence": 0.86
+                },
+                {
+                    "description": "The observed alarm cluster may represent a downstream consequence of the abnormal coolant operating condition rather than an independent initiating fault.",
+                    "confidence": 0.71
+                }
+            ],
+            "recommendations": [
+                {
+                    "priority": "HIGH",
+                    "action": "Inspect the coolant subsystem and pressure-control components before returning the equipment to normal operation."
+                },
+                {
+                    "priority": "MEDIUM",
+                    "action": "Review the temporal relationship between coolant pressure, hydraulic pressure, and alarm transitions."
+                }
+            ]
+        },
+        "metadata": {
+            "parser": {
+                "name": "causRCA_python_pipeline",
+                "version": "1.0"
+            },
+            "embedding": {
+                "enabled": true,
+                "model": "sentence-transformers"
+            },
+            "retrieval": {
+                "enabled": true,
+                "method": "local_similarity"
+            },
+            "llm": {
+                "enabled": true,
+                "provider": "nvidia_nim",
+                "model": "MODEL_NAME"
+            },
+            "ground_truth": {
+                "available": false,
+                "source": "causRCA"
+            }
+        }
+    },
+    {
+        "schema_version": "1.0",
+        "system": {
+            "id": "system-test-003",
+            "name": "Production Line A",
+            "type": "industrial_equipment",
+            "source": "causRCA"
+        },
+        "analysis": {
+            "analysis_id": "analysis-test-003",
+            "started_at": "2026-08-12T14:00:00Z",
+            "ended_at": "2026-08-12T14:03:21Z",
+            "total_events": 6210,
+            "unique_event_templates": 14,
+            "status": "NORMAL",
+            "health_score": 96.0
+        },
+        "summary": {
+            "normal_events": 6148,
+            "anomalous_events": 62,
+            "anomaly_rate": 1.0,
+            "critical_anomalies": 0,
+            "high_anomalies": 2,
+            "medium_anomalies": 17,
+            "low_anomalies": 43
+        },
+        "event_statistics": {
+            "severity_distribution": [
+                {
+                    "level": "NORMAL",
+                    "count": 6148,
+                    "percentage": 99.0
+                },
+                {
+                    "level": "WARNING",
+                    "count": 62,
+                    "percentage": 1.0
+                },
+                {
+                    "level": "CRITICAL",
+                    "count": 0,
+                    "percentage": 0.0
+                }
+            ],
+            "top_events": [
+                {
+                    "event_id": "E0301",
+                    "template": "Cycle_Completed",
+                    "count": 2140,
+                    "percentage": 34.46
+                },
+                {
+                    "event_id": "E0302",
+                    "template": "Component_Ready",
+                    "count": 1380,
+                    "percentage": 22.22
+                },
+                {
+                    "event_id": "E0307",
+                    "template": "Temperature_Normal",
+                    "count": 820,
+                    "percentage": 13.21
+                }
+            ]
+        },
+        "trends": {
+            "event_rate": [
+                {
+                    "timestamp": "2026-08-12T14:00:00Z",
+                    "value": 1980.0
+                },
+                {
+                    "timestamp": "2026-08-12T15:00:00Z",
+                    "value": 2040.0
+                },
+                {
+                    "timestamp": "2026-08-12T16:00:00Z",
+                    "value": 2190.0
+                }
+            ],
+            "anomaly_rate": [
+                {
+                    "timestamp": "2026-08-12T14:00:00Z",
+                    "value": 0.8
+                },
+                {
+                    "timestamp": "2026-08-12T15:00:00Z",
+                    "value": 1.1
+                },
+                {
+                    "timestamp": "2026-08-12T16:00:00Z",
+                    "value": 1.0
+                }
+            ]
+        },
+        "anomalies": [
+            {
+                "id": "ANOM-TEST-003",
+                "severity": "LOW",
+                "type": "MINOR_DEVIATION",
+                "title": "Minor temperature variation",
+                "description": "A small temperature deviation was detected but remained within acceptable operating tolerance.",
+                "first_detected": "2026-08-12T15:22:11Z",
+                "last_detected": "2026-08-12T15:26:43Z",
+                "occurrences": 12,
+                "affected_entities": [
+                    "temperature_sensor_01",
+                    "production_line_a"
+                ],
+                "evidence": [
+                    {
+                        "metric": "temperature",
+                        "value": 71.4,
+                        "baseline": 69.8,
+                        "unit": "C"
+                    }
+                ],
+                "possible_causes": [
+                    {
+                        "cause": "Normal operating variation",
+                        "confidence": 0.89
+                    }
+                ],
+                "recommendations": [
+                    {
+                        "priority": "LOW",
+                        "action": "Continue routine monitoring."
+                    }
+                ],
+                "confidence": 0.91
+            }
+        ],
+        "affected_entities": [
+            {
+                "id": "production_line_a",
+                "type": "equipment",
+                "event_count": 3120,
+                "anomaly_count": 31,
+                "status": "NORMAL"
+            },
+            {
+                "id": "temperature_sensor_01",
+                "type": "signal",
+                "event_count": 820,
+                "anomaly_count": 12,
+                "status": "NORMAL"
+            }
+        ],
+        "insights": {
+            "summary": "The production line is operating within expected conditions with only minor deviations detected.",
+            "root_cause_hypotheses": [
+                {
+                    "description": "The observed temperature variation is consistent with normal operating variability.",
+                    "confidence": 0.89
+                }
+            ],
+            "recommendations": [
+                {
+                    "priority": "LOW",
+                    "action": "Continue routine monitoring and scheduled maintenance."
+                }
+            ]
+        },
+        "metadata": {
+            "parser": {
+                "name": "causRCA_python_pipeline",
+                "version": "1.0"
+            },
+            "embedding": {
+                "enabled": true,
+                "model": "sentence-transformers"
+            },
+            "retrieval": {
+                "enabled": true,
+                "method": "local_similarity"
+            },
+            "llm": {
+                "enabled": true,
+                "provider": "nvidia_nim",
+                "model": "test-model"
+            },
+            "ground_truth": {
+                "available": false,
+                "source": "causRCA"
+            }
+        }
+    },
+    {
+        "schema_version": "1.0",
+        "system": {
+            "id": "system-test-001",
+            "name": "CNC Cooling System",
+            "type": "industrial_equipment",
+            "source": "causRCA"
+        },
+        "analysis": {
+            "analysis_id": "analysis-test-001",
+            "started_at": "2026-08-12T08:00:00Z",
+            "ended_at": "2026-08-12T08:04:32Z",
+            "total_events": 8420,
+            "unique_event_templates": 18,
+            "status": "WARNING",
+            "health_score": 78.0
+        },
+        "summary": {
+            "normal_events": 8012,
+            "anomalous_events": 408,
+            "anomaly_rate": 4.85,
+            "critical_anomalies": 8,
+            "high_anomalies": 37,
+            "medium_anomalies": 129,
+            "low_anomalies": 234
+        },
+        "event_statistics": {
+            "severity_distribution": [
+                {
+                    "level": "NORMAL",
+                    "count": 8012,
+                    "percentage": 95.15
+                },
+                {
+                    "level": "WARNING",
+                    "count": 355,
+                    "percentage": 4.22
+                },
+                {
+                    "level": "CRITICAL",
+                    "count": 53,
+                    "percentage": 0.63
+                }
+            ],
+            "top_events": [
+                {
+                    "event_id": "E0102",
+                    "template": "Coolant_Pressure_Low",
+                    "count": 126,
+                    "percentage": 1.5
+                },
+                {
+                    "event_id": "E0114",
+                    "template": "Coolant_Flow_Deviation",
+                    "count": 94,
+                    "percentage": 1.12
+                },
+                {
+                    "event_id": "E0048",
+                    "template": "Pump_Speed_Deviation",
+                    "count": 71,
+                    "percentage": 0.84
+                }
+            ]
+        },
+        "trends": {
+            "event_rate": [
+                {
+                    "timestamp": "2026-08-12T08:00:00Z",
+                    "value": 1320.0
+                },
+                {
+                    "timestamp": "2026-08-12T09:00:00Z",
+                    "value": 1740.0
+                },
+                {
+                    "timestamp": "2026-08-12T10:00:00Z",
+                    "value": 2210.0
+                }
+            ],
+            "anomaly_rate": [
+                {
+                    "timestamp": "2026-08-12T08:00:00Z",
+                    "value": 1.4
+                },
+                {
+                    "timestamp": "2026-08-12T09:00:00Z",
+                    "value": 3.8
+                },
+                {
+                    "timestamp": "2026-08-12T10:00:00Z",
+                    "value": 7.2
+                }
+            ]
+        },
+        "anomalies": [
+            {
+                "id": "ANOM-TEST-001",
+                "severity": "HIGH",
+                "type": "SIGNAL_DEVIATION",
+                "title": "Coolant pressure below operating baseline",
+                "description": "Coolant pressure declined substantially below the established operating baseline during the incident window.",
+                "first_detected": "2026-08-12T10:12:14Z",
+                "last_detected": "2026-08-12T10:48:33Z",
+                "occurrences": 126,
+                "affected_entities": [
+                    "coolant_pressure",
+                    "coolant_system",
+                    "equipment_001"
+                ],
+                "evidence": [
+                    {
+                        "metric": "coolant_pressure",
+                        "value": 41.8,
+                        "baseline": 66.2,
+                        "unit": "kPa"
+                    },
+                    {
+                        "metric": "coolant_flow",
+                        "value": 18.4,
+                        "baseline": 29.7,
+                        "unit": "L/min"
+                    }
+                ],
+                "possible_causes": [
+                    {
+                        "cause": "Coolant pump degradation",
+                        "confidence": 0.88
+                    },
+                    {
+                        "cause": "Restriction in coolant circulation path",
+                        "confidence": 0.64
+                    }
+                ],
+                "recommendations": [
+                    {
+                        "priority": "HIGH",
+                        "action": "Inspect the coolant pump and circulation path."
+                    },
+                    {
+                        "priority": "MEDIUM",
+                        "action": "Check coolant filters and valves for flow restriction."
+                    }
+                ],
+                "confidence": 0.9
+            }
+        ],
+        "affected_entities": [
+            {
+                "id": "equipment_001",
+                "type": "equipment",
+                "event_count": 421,
+                "anomaly_count": 17,
+                "status": "WARNING"
+            },
+            {
+                "id": "coolant_system",
+                "type": "subsystem",
+                "event_count": 284,
+                "anomaly_count": 14,
+                "status": "WARNING"
+            },
+            {
+                "id": "coolant_pressure",
+                "type": "signal",
+                "event_count": 137,
+                "anomaly_count": 9,
+                "status": "CRITICAL"
+            }
+        ],
+        "insights": {
+            "summary": "Coolant pressure degradation is the dominant anomaly pattern and is temporally associated with increased coolant flow deviations.",
+            "root_cause_hypotheses": [
+                {
+                    "description": "Coolant pump degradation is the leading hypothesis because pressure and flow decreased together during the incident.",
+                    "confidence": 0.86
+                }
+            ],
+            "recommendations": [
+                {
+                    "priority": "HIGH",
+                    "action": "Inspect the coolant pump before returning equipment to normal operation."
+                }
+            ]
+        },
+        "metadata": {
+            "parser": {
+                "name": "causRCA_python_pipeline",
+                "version": "1.0"
+            },
+            "embedding": {
+                "enabled": true,
+                "model": "sentence-transformers"
+            },
+            "retrieval": {
+                "enabled": true,
+                "method": "local_similarity"
+            },
+            "llm": {
+                "enabled": true,
+                "provider": "nvidia_nim",
+                "model": "test-model"
+            },
+            "ground_truth": {
+                "available": false,
+                "source": "causRCA"
+            }
+        }
+    }
+]

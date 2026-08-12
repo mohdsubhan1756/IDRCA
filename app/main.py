@@ -1,13 +1,12 @@
 from pathlib import Path
 import json
+from typing import List
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from app.database import create_tables, get_connection
-from app.models import DashboardPayload
-from app.crud import save_dashboard_payload, get_dashboard_payload
+from app.storage import load_history, add_payload, get_latest_payload, get_all_payloads, get_payload_by_id
 from app.validation import validate_payload
 
 
@@ -27,7 +26,16 @@ app.mount("/data", StaticFiles(directory=DATA_DIR), name="data")
 
 @app.on_event("startup")
 def startup():
-    create_tables()
+    """
+    Load history on startup. If history is empty, seed it with default data.
+    """
+    load_history()
+    
+    # If the history is empty after loading, it means it's a fresh start.
+    # Let's seed the application with the default payload.
+    if not get_all_payloads():
+        print("INFO:     No history found. Seeding with default data.")
+        seed_database()
 
 
 @app.get("/")
@@ -66,7 +74,7 @@ def create_analysis(payload: dict):
     try:
         validated = validate_payload(payload)
 
-        save_dashboard_payload(validated)
+        add_payload(validated)
 
         return {
             "success": True,
@@ -101,7 +109,7 @@ def seed_database():
             data = json.load(file)
 
         validated = validate_payload(data)
-        save_dashboard_payload(validated)
+        add_payload(validated)
 
         return {
             "success": True,
@@ -116,196 +124,54 @@ def seed_database():
         )
 
 
-# @app.get("/api/dashboard")
-# def get_dashboard():
-
-#     connection = get_connection()
-#     cursor = connection.cursor()
-
-#     try:
-#         analysis = cursor.execute(
-#             """
-#             SELECT *
-#             FROM analysis
-#             ORDER BY started_at DESC
-#             LIMIT 1
-#             """
-#         ).fetchone()
-
-#         if not analysis:
-#             raise HTTPException(
-#                 status_code=404,
-#                 detail="No analysis data found. Run /api/seed first.",
-#             )
-
-#         analysis_id = analysis["analysis_id"]
-
-#         system = cursor.execute(
-#             """
-#             SELECT *
-#             FROM system
-#             WHERE system_id = ?
-#             """,
-#             (analysis["system_id"],),
-#         ).fetchone()
-
-#         summary = cursor.execute(
-#             """
-#             SELECT *
-#             FROM summary
-#             WHERE analysis_id = ?
-#             """,
-#             (analysis_id,),
-#         ).fetchone()
-
-#         severity_distribution = cursor.execute(
-#             """
-#             SELECT level, count, percentage
-#             FROM event_statistics
-#             WHERE analysis_id = ?
-#             """,
-#             (analysis_id,),
-#         ).fetchall()
-
-#         top_events = cursor.execute(
-#             """
-#             SELECT event_id, template, count, percentage
-#             FROM top_events
-#             WHERE analysis_id = ?
-#             ORDER BY count DESC
-#             """,
-#             (analysis_id,),
-#         ).fetchall()
-
-#         event_trends = cursor.execute(
-#             """
-#             SELECT timestamp, value
-#             FROM trends
-#             WHERE analysis_id = ?
-#             AND trend_type = 'event_rate'
-#             ORDER BY timestamp
-#             """,
-#             (analysis_id,),
-#         ).fetchall()
-
-#         anomaly_trends = cursor.execute(
-#             """
-#             SELECT timestamp, value
-#             FROM trends
-#             WHERE analysis_id = ?
-#             AND trend_type = 'anomaly_rate'
-#             ORDER BY timestamp
-#             """,
-#             (analysis_id,),
-#         ).fetchall()
-
-#         anomalies = cursor.execute(
-#             """
-#             SELECT *
-#             FROM anomalies
-#             WHERE analysis_id = ?
-#             ORDER BY occurrences DESC
-#             """,
-#             (analysis_id,),
-#         ).fetchall()
-
-#         entities = cursor.execute(
-#             """
-#             SELECT *
-#             FROM affected_entities
-#             WHERE analysis_id = ?
-#             """,
-#             (analysis_id,),
-#         ).fetchall()
-
-#         insights = cursor.execute(
-#             """
-#             SELECT *
-#             FROM insights
-#             WHERE analysis_id = ?
-#             """,
-#             (analysis_id,),
-#         ).fetchone()
-
-#         return {
-#             "schema_version": "1.0",
-
-#             "system": dict(system),
-
-#             "analysis": dict(analysis),
-
-#             "summary": dict(summary),
-
-#             "event_statistics": {
-#                 "severity_distribution": [
-#                     dict(row)
-#                     for row in severity_distribution
-#                 ],
-#                 "top_events": [
-#                     dict(row)
-#                     for row in top_events
-#                 ],
-#             },
-
-#             "trends": {
-#                 "event_rate": [
-#                     dict(row)
-#                     for row in event_trends
-#                 ],
-#                 "anomaly_rate": [
-#                     dict(row)
-#                     for row in anomaly_trends
-#                 ],
-#             },
-
-#             "anomalies": [
-#                 dict(row)
-#                 for row in anomalies
-#             ],
-
-#             "affected_entities": [
-#                 dict(row)
-#                 for row in entities
-#             ],
-
-#             "insights": dict(insights) if insights else {},
-
-#         }
-
-#     finally:
-#         connection.close()
-
-
-
 @app.get("/api/dashboard")
 def get_dashboard():
-    connection = get_connection()
+    """
+    Return the latest dashboard payload.
+    """
+    payload = get_latest_payload()
 
-    try:
-        analysis = connection.execute(
-            """
-            SELECT analysis_id
-            FROM analysis
-            ORDER BY started_at DESC
-            LIMIT 1
-            """
-        ).fetchone()
-
-    finally:
-        connection.close()
-
-    if analysis is None:
+    if payload is None:
         raise HTTPException(
             status_code=404,
             detail="No analysis data found. Run /api/seed first.",
         )
 
-    payload = get_dashboard_payload(analysis["analysis_id"])
+    return payload.model_dump(mode="json")
+
+
+@app.get("/api/history")
+def get_history():
+    """
+    Return a list of all historical analyses.
+    """
+    payloads = get_all_payloads()
+
+    # Return a summary for each analysis, sorted with newest first
+    history_summary = [
+        {
+            "analysis_id": p.analysis.analysis_id,
+            "started_at": p.analysis.started_at,
+            "status": p.analysis.status,
+            "health_score": p.analysis.health_score,
+        }
+        for p in payloads
+    ]
+
+    return sorted(history_summary, key=lambda x: x["started_at"], reverse=True)
+
+
+@app.get("/api/analysis/{analysis_id}")
+def get_analysis_by_id(analysis_id: str):
+    """
+    Return a specific dashboard payload by its analysis_id.
+    """
+    payload = get_payload_by_id(analysis_id)
 
     if payload is None:
         raise HTTPException(
             status_code=404,
-            detail="DashboardPayload not found.",
+            detail=f"Analysis with ID '{analysis_id}' not found.",
         )
 
     return payload.model_dump(mode="json")
