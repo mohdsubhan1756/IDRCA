@@ -1,0 +1,187 @@
+{
+    "schema_version": "1.0",
+    "system": {
+        "id": "system-001",
+        "name": "HDFS Cluster",
+        "type": "distributed_system",
+        "source": "HDFS_v1"
+    },
+    "analysis": {
+        "analysis_id": "analysis-2026-08-11-001",
+        "started_at": "2026-08-11T08:00:00Z",
+        "ended_at": "2026-08-11T18:00:00Z",
+        "total_events": 125430,
+        "unique_event_templates": 46,
+        "status": "WARNING",
+        "health_score": 72
+    },
+    "summary": {
+        "normal_events": 121842,
+        "anomalous_events": 3588,
+        "anomaly_rate": 2.86,
+        "critical_anomalies": 124,
+        "high_anomalies": 416,
+        "medium_anomalies": 1082,
+        "low_anomalies": 1966
+    },
+    "event_statistics": {
+        "severity_distribution": [
+            {
+                "level": "INFO",
+                "count": 120000,
+                "percentage": 95.67
+            },
+            {
+                "level": "WARNING",
+                "count": 4200,
+                "percentage": 3.35
+            },
+            {
+                "level": "ERROR",
+                "count": 1230,
+                "percentage": 0.98
+            }
+        ],
+        "top_events": [
+            {
+                "event_id": "E001",
+                "template": "PacketResponder <*> for block <*> terminating",
+                "count": 4210,
+                "percentage": 3.36
+            },
+            {
+                "event_id": "E002",
+                "template": "Received block <*> of size <*>",
+                "count": 3890,
+                "percentage": 3.10
+            }
+        ]
+    },
+    "trends": {
+        "event_rate": [
+            {
+                "timestamp": "2026-08-11T08:00:00Z",
+                "value": 1820
+            },
+            {
+                "timestamp": "2026-08-11T09:00:00Z",
+                "value": 2140
+            }
+        ],
+        "anomaly_rate": [
+            {
+                "timestamp": "2026-08-11T08:00:00Z",
+                "value": 1.2
+            },
+            {
+                "timestamp": "2026-08-11T09:00:00Z",
+                "value": 3.7
+            }
+        ]
+    },
+    "anomalies": [
+        {
+            "id": "ANOM-001",
+            "severity": "HIGH",
+            "type": "FREQUENCY_SPIKE",
+            "title": "Abnormal increase in event frequency",
+            "description": "A significant increase in the frequency of event E042 was detected.",
+            "first_detected": "2026-08-11T10:14:22Z",
+            "last_detected": "2026-08-11T10:47:13Z",
+            "occurrences": 137,
+            "affected_entities": [
+                "blk_12345",
+                "blk_67890"
+            ],
+            "evidence": [
+                {
+                    "metric": "event_frequency",
+                    "value": 137,
+                    "baseline": 12,
+                    "unit": "events"
+                },
+                {
+                    "metric": "anomaly_rate",
+                    "value": 8.4,
+                    "baseline": 1.7,
+                    "unit": "percent"
+                }
+            ],
+            "possible_causes": [
+                {
+                    "cause": "Repeated failure of a system component",
+                    "confidence": 0.84
+                },
+                {
+                    "cause": "Abnormal workload or resource contention",
+                    "confidence": 0.67
+                }
+            ],
+            "recommendations": [
+                {
+                    "priority": "HIGH",
+                    "action": "Inspect the events associated with E042 and affected entities."
+                },
+                {
+                    "priority": "MEDIUM",
+                    "action": "Compare the affected period against previous normal traces."
+                }
+            ],
+            "confidence": 0.91
+        }
+    ],
+    "affected_entities": [
+        {
+            "id": "blk_12345",
+            "type": "block",
+            "event_count": 421,
+            "anomaly_count": 17,
+            "status": "WARNING"
+        },
+        {
+            "id": "blk_67890",
+            "type": "block",
+            "event_count": 0,
+            "anomaly_count": 0,
+            "status": "WARNING"
+        }
+    ],
+    "insights": {
+        "summary": "The system experienced a significant increase in anomalous events during the analysed period.",
+        "root_cause_hypotheses": [
+            {
+                "description": "Repeated occurrence of a specific event pattern appears to be associated with the detected anomaly cluster.",
+                "confidence": 0.86
+            }
+        ],
+        "recommendations": [
+            {
+                "priority": "HIGH",
+                "action": "Investigate the highest-frequency anomalous event patterns."
+            }
+        ]
+    },
+    "metadata": {
+        "parser": {
+            "name": "Drain",
+            "version": "x.x"
+        },
+        "embedding": {
+            "enabled": true,
+            "model": "sentence-transformers"
+        },
+        "retrieval": {
+            "enabled": true,
+            "method": "local_similarity"
+        },
+        "llm": {
+            "enabled": true,
+            "provider": "cloud_api",
+            "model": "MODEL_NAME"
+        },
+        "ground_truth": {
+            "available": true,
+            "source": "HDFS_v1"
+        }
+    }
+}
