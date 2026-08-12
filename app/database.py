@@ -10,8 +10,10 @@ def get_connection():
     # Allows accessing columns by name.
     connection.row_factory = sqlite3.Row
 
+    connection.execute("PRAGMA foreign_keys = OFF")
+
     # Enable foreign key enforcement.
-    connection.execute("PRAGMA foreign_keys = ON")
+    # connection.execute("PRAGMA foreign_keys = ON")
 
     return connection
 
