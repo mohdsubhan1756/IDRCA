@@ -1,457 +1,7 @@
-// let severityChart;
-// let eventRateChart;
-// let anomalyRateChart;
-
-
-// async function loadDashboard() {
-
-//     try {
-
-//         const response = await fetch("/api/dashboard");
-
-//         if (!response.ok) {
-//             throw new Error("Dashboard data could not be loaded");
-//         }
-
-//         const data = await response.json();
-
-//         renderDashboard(data);
-
-//     } catch (error) {
-
-//         console.error(error);
-
-//         document.body.innerHTML += `
-//             <div style="padding:20px;color:red;">
-//                 Failed to load dashboard data.
-//                 Please run the seed endpoint first.
-//             </div>
-//         `;
-//     }
-// }
-
-
-// function renderDashboard(data) {
-
-//     // ----------------------------------------
-//     // SYSTEM
-//     // ----------------------------------------
-
-//     document.getElementById("system-name").textContent =
-//         data.system.name;
-
-//     document.getElementById("system-source").textContent =
-//         `${data.system.type} • ${data.system.source}`;
-
-
-//     // ----------------------------------------
-//     // ANALYSIS
-//     // ----------------------------------------
-
-//     document.getElementById("health-score").textContent =
-//         data.analysis.health_score;
-
-//     document.getElementById("health-status").textContent =
-//         data.analysis.status;
-
-//     document.getElementById("status-badge").textContent =
-//         data.analysis.status;
-
-//     document.getElementById("analysis-period").textContent =
-//         `${formatDate(data.analysis.started_at)}
-//          → ${formatDate(data.analysis.ended_at)}`;
-
-
-//     // ----------------------------------------
-//     // SUMMARY
-//     // ----------------------------------------
-
-//     document.getElementById("total-events").textContent =
-//         formatNumber(data.analysis.total_events);
-
-//     document.getElementById("anomalous-events").textContent =
-//         formatNumber(data.summary.anomalous_events);
-
-//     document.getElementById("anomaly-rate").textContent =
-//         `${data.summary.anomaly_rate}%`;
-
-//     document.getElementById("critical-anomalies").textContent =
-//         data.summary.critical_anomalies;
-
-
-//     // ----------------------------------------
-//     // CHARTS
-//     // ----------------------------------------
-
-//     renderSeverityChart(
-//         data.event_statistics.severity_distribution
-//     );
-
-//     renderEventRateChart(
-//         data.trends.event_rate
-//     );
-
-//     renderAnomalyRateChart(
-//         data.trends.anomaly_rate
-//     );
-
-
-//     // ----------------------------------------
-//     // TOP EVENTS
-//     // ----------------------------------------
-
-//     renderTopEvents(
-//         data.event_statistics.top_events
-//     );
-
-
-//     // ----------------------------------------
-//     // ANOMALIES
-//     // ----------------------------------------
-
-//     renderAnomalies(
-//         data.anomalies
-//     );
-
-
-//     // ----------------------------------------
-//     // INSIGHTS
-//     // ----------------------------------------
-
-//     renderInsights(
-//         data.insights
-//     );
-
-
-//     // ----------------------------------------
-//     // ENTITIES
-//     // ----------------------------------------
-
-//     renderEntities(
-//         data.affected_entities
-//     );
-// }
-
-
-// function renderSeverityChart(items) {
-
-//     const labels = items.map(item => item.level);
-//     const values = items.map(item => item.count);
-
-//     if (severityChart) {
-//         severityChart.destroy();
-//     }
-
-//     severityChart = new Chart(
-//         document.getElementById("severityChart"),
-//         {
-//             type: "doughnut",
-
-//             data: {
-//                 labels: labels,
-
-//                 datasets: [{
-//                     data: values
-//                 }]
-//             },
-
-//             options: {
-//                 responsive: true
-//             }
-//         }
-//     );
-// }
-
-
-// function renderEventRateChart(items) {
-
-//     const labels = items.map(item =>
-//         formatDate(item.timestamp)
-//     );
-
-//     const values = items.map(item =>
-//         item.value
-//     );
-
-//     if (eventRateChart) {
-//         eventRateChart.destroy();
-//     }
-
-//     eventRateChart = new Chart(
-//         document.getElementById("eventRateChart"),
-//         {
-//             type: "line",
-
-//             data: {
-//                 labels: labels,
-
-//                 datasets: [{
-//                     label: "Events",
-//                     data: values,
-
-//                     tension: 0.3
-//                 }]
-//             },
-
-//             options: {
-//                 responsive: true
-//             }
-//         }
-//     );
-// }
-
-
-// function renderAnomalyRateChart(items) {
-
-//     const labels = items.map(item =>
-//         formatDate(item.timestamp)
-//     );
-
-//     const values = items.map(item =>
-//         item.value
-//     );
-
-//     if (anomalyRateChart) {
-//         anomalyRateChart.destroy();
-//     }
-
-//     anomalyRateChart = new Chart(
-//         document.getElementById("anomalyRateChart"),
-//         {
-//             type: "line",
-
-//             data: {
-//                 labels: labels,
-
-//                 datasets: [{
-//                     label: "Anomaly %",
-//                     data: values,
-
-//                     tension: 0.3
-//                 }]
-//             },
-
-//             options: {
-//                 responsive: true
-//             }
-//         }
-//     );
-// }
-
-
-// function renderTopEvents(events) {
-
-//     const table =
-//         document.getElementById("top-events-table");
-
-//     table.innerHTML = "";
-
-//     events.forEach(event => {
-
-//         const row = document.createElement("tr");
-
-//         row.innerHTML = `
-//             <td>${escapeHtml(event.event_id)}</td>
-
-//             <td>${escapeHtml(event.template)}</td>
-
-//             <td>${formatNumber(event.count)}</td>
-
-//             <td>${event.percentage}%</td>
-//         `;
-
-//         table.appendChild(row);
-//     });
-// }
-
-
-// function renderAnomalies(anomalies) {
-
-//     const container =
-//         document.getElementById("anomaly-container");
-
-//     container.innerHTML = "";
-
-//     anomalies.forEach(anomaly => {
-
-//         const card =
-//             document.createElement("div");
-
-//         card.className = "anomaly-card";
-
-//         let causes = "";
-
-//         anomaly.possible_causes.forEach(cause => {
-
-//             causes += `
-//                 <div class="cause">
-//                     <strong>${escapeHtml(cause.cause)}</strong>
-//                     <br>
-//                     Confidence:
-//                     ${(cause.confidence * 100).toFixed(0)}%
-//                 </div>
-//             `;
-//         });
-
-
-//         let recommendations = "";
-
-//         anomaly.recommendations.forEach(rec => {
-
-//             recommendations += `
-//                 <div class="recommendation">
-//                     <strong>${escapeHtml(rec.priority)}</strong>
-//                     —
-//                     ${escapeHtml(rec.action)}
-//                 </div>
-//             `;
-//         });
-
-
-//         let evidence = "";
-
-//         anomaly.evidence.forEach(item => {
-
-//             evidence += `
-//                 <li>
-//                     ${escapeHtml(item.metric)}:
-//                     ${item.value}
-//                     ${escapeHtml(item.unit)}
-//                     (baseline: ${item.baseline})
-//                 </li>
-//             `;
-//         });
-
-
-//         card.innerHTML = `
-//             <h3>
-//                 ${escapeHtml(anomaly.title)}
-//             </h3>
-
-//             <span class="badge">
-//                 ${escapeHtml(anomaly.severity)}
-//             </span>
-
-//             <p>
-//                 ${escapeHtml(anomaly.description)}
-//             </p>
-
-//             <p>
-//                 <strong>Occurrences:</strong>
-//                 ${anomaly.occurrences}
-//             </p>
-
-//             <p>
-//                 <strong>Confidence:</strong>
-//                 ${(anomaly.confidence * 100).toFixed(0)}%
-//             </p>
-
-//             <h4>Evidence</h4>
-
-//             <ul>
-//                 ${evidence}
-//             </ul>
-
-//             <h4>Possible Causes</h4>
-
-//             ${causes}
-
-//             <h4>Recommendations</h4>
-
-//             ${recommendations}
-//         `;
-
-//         container.appendChild(card);
-//     });
-// }
-
-
-// function renderInsights(insights) {
-
-//     document.getElementById("insight-summary")
-//         .textContent = insights.summary || "";
-
-//     const container =
-//         document.getElementById("root-causes");
-
-//     container.innerHTML = "";
-
-//     if (!insights.root_cause_hypotheses) {
-//         return;
-//     }
-
-//     insights.root_cause_hypotheses.forEach(item => {
-
-//         const div =
-//             document.createElement("div");
-
-//         div.className = "cause";
-
-//         div.innerHTML = `
-//             ${escapeHtml(item.description)}
-//             <br>
-//             Confidence:
-//             ${(item.confidence * 100).toFixed(0)}%
-//         `;
-
-//         container.appendChild(div);
-//     });
-// }
-
-
-// function renderEntities(entities) {
-
-//     const table =
-//         document.getElementById("entities-table");
-
-//     table.innerHTML = "";
-
-//     entities.forEach(entity => {
-
-//         const row = document.createElement("tr");
-
-//         row.innerHTML = `
-//             <td>${escapeHtml(entity.entity_id)}</td>
-//             <td>${escapeHtml(entity.type)}</td>
-//             <td>${formatNumber(entity.event_count)}</td>
-//             <td>${formatNumber(entity.anomaly_count)}</td>
-//             <td>${escapeHtml(entity.status)}</td>
-//         `;
-
-//         table.appendChild(row);
-//     });
-// }
-
-
-// function formatNumber(number) {
-
-//     return Number(number).toLocaleString();
-// }
-
-
-// function formatDate(timestamp) {
-
-//     return new Date(timestamp).toLocaleString();
-// }
-
-
-// function escapeHtml(value) {
-
-//     const div = document.createElement("div");
-
-//     div.textContent = value;
-
-//     return div.innerHTML;
-// }
-
-
-// loadDashboard();
-
-
-
 let severityChart = null;
 let eventRateChart = null;
 let anomalyRateChart = null;
+let currentAnalysisId = null;
 
 
 // ============================================================
@@ -459,7 +9,17 @@ let anomalyRateChart = null;
 // ============================================================
 
 async function loadDashboard() {
-    const source = "/data/dashboard_payload.json";
+    const existingError = document.getElementById("dashboard-error");
+
+    if (existingError) {
+        existingError.remove();
+    }
+
+    // If a specific analysis is being viewed, don't auto-refresh it with the latest.
+    // The user can click "Load Latest Analysis" to go back.
+    const source = currentAnalysisId ? `/api/analysis/${currentAnalysisId}` : "/api/dashboard";
+
+    await loadHistory();
 
     try {
         const response = await fetch(source, {
@@ -476,7 +36,13 @@ async function loadDashboard() {
 
         const data = await response.json();
 
+        if (data.detail) {
+            throw new Error(data.detail);
+        }
+
         console.log(`Dashboard response from ${source}:`, data);
+
+        currentAnalysisId = data.analysis.analysis_id;
 
         renderDashboard(data);
 
@@ -484,6 +50,72 @@ async function loadDashboard() {
         console.error(`Dashboard loading error from ${source}:`, error);
         showDashboardError(error.message);
     }
+}
+
+
+async function loadHistory() {
+    const historyList = document.getElementById("analysis-history-list");
+
+    if (!historyList) {
+        return;
+    }
+
+    try {
+        const response = await fetch("/api/history");
+        if (!response.ok) {
+            historyList.innerHTML = "<li>Failed to load history.</li>";
+            return;
+        }
+
+        const history = await response.json();
+
+        historyList.innerHTML = ""; // Clear existing list
+
+        if (history.length === 0) {
+            historyList.innerHTML = "<li>No history available.</li>";
+            return;
+        }
+
+        history.forEach(item => {
+            const listItem = document.createElement("li");
+            listItem.dataset.analysisId = item.analysis_id;
+            listItem.innerHTML = `
+                <span class="history-date">${formatDate(item.started_at, { timeStyle: "short", dateStyle: "short" })}</span>
+                <span class="history-id">${item.analysis_id}</span>
+                <span class="badge">${item.status}</span>
+            `;
+
+            if (item.analysis_id === currentAnalysisId) {
+                listItem.classList.add("active");
+            }
+
+            listItem.addEventListener("click", () => {
+                loadSpecificAnalysis(item.analysis_id);
+            });
+
+            historyList.appendChild(listItem);
+        });
+
+    } catch (error) {
+        console.error("Failed to load analysis history:", error);
+        historyList.innerHTML = "<li>Error loading history.</li>";
+    }
+}
+
+
+async function loadSpecificAnalysis(analysisId) {
+    console.log(`Loading specific analysis: ${analysisId}`);
+    currentAnalysisId = analysisId;
+    await loadDashboard(); // This will now use the currentAnalysisId
+}
+
+
+function loadLatestAnalysis() {
+    console.log("Loading latest analysis");
+    currentAnalysisId = null; // Unset the specific ID to fetch the latest
+    const payloadEditor = document.getElementById("payload-editor");
+    payloadEditor.value = ""; // Clear editor when loading latest
+    loadDashboard();
 }
 
 
@@ -503,6 +135,7 @@ function initializePayloadEditor() {
     const payloadEditor = document.getElementById("payload-editor");
     const submitButton = document.getElementById("submit-payload-button");
     const loadButton = document.getElementById("load-payload-button");
+    const loadLatestButton = document.getElementById("load-latest-button");
     const payloadMessage = document.getElementById("payload-message");
 
     if (!payloadEditor || !submitButton || !loadButton || !payloadMessage) {
@@ -562,11 +195,12 @@ function initializePayloadEditor() {
                 throw new Error(result.detail || result.message || `HTTP ${response.status}`);
             }
 
-            if (result.payload) {
-                renderDashboard(result.payload);
-            }
+            showPayloadMessage("Payload submitted successfully. Refreshing dashboard...");
 
-            showPayloadMessage("Payload submitted and rendered successfully.");
+            if (result.payload) {
+                // Load the new analysis that was just submitted
+                loadSpecificAnalysis(result.analysis_id);
+            }
         } catch (error) {
             showPayloadMessage(error.message, true);
         }
@@ -580,6 +214,8 @@ function initializePayloadEditor() {
 
 function renderDashboard(data) {
 
+    document.querySelectorAll("#analysis-history-list li").forEach(li => li.classList.remove("active"));
+    document.querySelector(`#analysis-history-list li[data-analysis-id="${data.analysis.analysis_id}"]`)?.classList.add("active");
     if (!data) {
         throw new Error("Dashboard API returned empty data.");
     }
@@ -653,9 +289,14 @@ function renderDashboard(data) {
     let analysisPeriod = "--";
 
     if (startedAt && endedAt) {
-        analysisPeriod =
-            `${formatDate(startedAt)} → ${formatDate(endedAt)} `;
+        analysisPeriod = `${formatDate(startedAt)} → ${formatDate(endedAt)}`;
     }
+
+    const payloadEditor = document.getElementById("payload-editor");
+    if (payloadEditor) {
+        payloadEditor.value = JSON.stringify(data, null, 2);
+    }
+
 
     setText(
         "analysis-period",
@@ -1553,7 +1194,7 @@ function formatConfidence(value) {
 }
 
 
-function formatDate(timestamp) {
+function formatDate(timestamp, options = {}) {
 
     if (!timestamp) {
         return "--";
@@ -1566,7 +1207,7 @@ function formatDate(timestamp) {
         return timestamp;
     }
 
-    return date.toLocaleString();
+    return date.toLocaleString(undefined, options);
 }
 
 
@@ -1656,7 +1297,8 @@ function showDashboardError(message) {
 document.addEventListener(
     "DOMContentLoaded",
     () => {
-        loadDashboard();
         initializePayloadEditor();
+        loadDashboard(); // Initial load
+        setInterval(loadDashboard, 5000); // Refresh every 5 seconds
     }
 );
